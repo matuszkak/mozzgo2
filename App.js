@@ -1,10 +1,10 @@
-
-
-
 // import all the components we are going to use
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { StatusBar } from 'expo-status-bar';
 import { BarChart } from 'react-native-chart-kit';
 import { Pedometer } from 'expo-sensors';
+import AddToSteps from './components/AddToSteps';
+// import { formatDate, converttoDay, getMonday, getyesterday, get2daybefore, get3daybefore, get4daybefore, get5daybefore, get6daybefore } from './components/FormatDate.js';
 
 
 import {
@@ -15,13 +15,13 @@ import {
   StyleSheet,
   Dimensions,
   ScrollView,
+  Button,
 
 } from 'react-native';
 
 // import assets
 import logo from './assets/footz.jpg';
 import appname from './assets/Mozzgogif2.gif';
-
 
 
 // date formatting
@@ -117,6 +117,12 @@ function converttoDay(n) {
   return day
 }
 
+
+function AddSteps(extraSteps) {
+  console.log(extraSteps);
+  return extraSteps;
+}
+
 // defining days
 const end = new Date();
 const start = new Date(new Date().setHours(0, 0, 0, 0));
@@ -140,6 +146,7 @@ var db6_day = converttoDay(dbefore6.getDay());
 
 
 export default class App extends React.Component {
+
   state = {
     isPedometerAvailable: 'checking',
     weekStepCount: 0,
@@ -151,23 +158,11 @@ export default class App extends React.Component {
     yesterdayStepCount: 0,
     pastStepCount: 0,
     currentStepCount: 0,
+    isAddPopupVisible: false,
+    extra: 0,
   };
 
-  //   const [isAddPopupVisible, setIsAddPopupVisible] = useState(false);
 
-  //   <Button
-  //   title={'Add new item'}
-  //   onPress={() => {
-  //     // window.alert('ez egy popup');
-  //     setIsAddPopupVisible(true);
-  //   }}
-  // />
-  // <ShoppingListInput
-  //   onAdd={addToShoppingList}
-  //   visible={isAddPopupVisible}
-  //   onCancel={() => {
-  //     setIsAddPopupVisible(false);
-  //   }}
 
   componentDidMount() {
     this._subscribe();
@@ -288,6 +283,8 @@ export default class App extends React.Component {
 
   };
 
+
+
   _unsubscribe = () => {
     this._subscription && this._subscription.remove();
     this._subscription = null;
@@ -296,6 +293,8 @@ export default class App extends React.Component {
 
 
   render() {
+    var extra = 10000;
+    var vis = this.state.isAddPopupVisible;
     var db6 = this.state.daybefore6StepCount;
     var db5 = this.state.daybefore5StepCount;
     var db4 = this.state.daybefore4StepCount;
@@ -303,14 +302,14 @@ export default class App extends React.Component {
     var db2 = this.state.daybefore2StepCount;
     var db = this.state.daybeforeStepCount;
     var y = this.state.yesterdayStepCount;
-    var t = this.state.pastStepCount + this.state.currentStepCount;
+    var t = this.state.pastStepCount + this.state.currentStepCount + extra;
 
 
 
     return (
       <View style={styles.container}>
-        <Image source={logo} style={{ color: "black", width: 100, height: 100 }} />
-        <Image source={appname} style={{ color: "black", width: 150, height: 100 }} />
+        <Image source={logo} style={{ width: 100, height: 100 }} />
+        <Image source={appname} style={{ width: 150, height: 100 }} />
 
         <Text style={{ color: 'green', fontSize: 18 }}>{formatDate(new Date())}</Text>
         <Text></Text>
@@ -366,6 +365,22 @@ export default class App extends React.Component {
             marginVertical: 58,
             marginHorizontal: 8,
             borderRadius: 6,
+          }}
+        />
+        <Button
+          title={'Add steps'}
+          onPress={() => {
+            // window.alert('ez egy popup');
+
+            this.setState({ isAddPopupVisible: true });
+          }}
+        />
+        <AddToSteps
+          onAdd={AddSteps}
+          visible={vis}
+          extra={extra}
+          onCancel={() => {
+            this.setState({ isAddPopupVisible: false });
           }}
         />
       </View>
