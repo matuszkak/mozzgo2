@@ -1,6 +1,4 @@
 
-
-
 // date formatting
 function formatDate(date) {
   var d = new Date(date),
@@ -11,15 +9,16 @@ function formatDate(date) {
     minute = d.getMinutes(),
     second = d.getSeconds();
 
+  console.log(parseInt(second).length);
   if (month.length < 2)
     month = '0' + month;
   if (day.length < 2)
     day = '0' + day;
-  if (hour.length < 2)
+  if (hour < 10)
     hour = '0' + hour;
-  if (minute.length < 2)
+  if (minute < 10)
     minute = '0' + minute;
-  if (second.length < 2)
+  if (second < 10)
     second = '0' + second;
 
   return ([year, month, day].join('-') + ' ' + [hour, minute, second].join(':'));
@@ -94,3 +93,4 @@ function converttoDay(n) {
   return day
 }
 
+export { getMonday, formatDate, get2daybefore, get3daybefore, get4daybefore, get5daybefore, get6daybefore, getyesterday, converttoDay };

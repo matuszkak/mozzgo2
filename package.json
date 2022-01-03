@@ -24,10 +24,24 @@
     "react-native-tab-view": "*",
     "react-native-chart-kit": "6.11.0",
     "react-native-pager-view": "5.4.6",
-    "react-native-safe-area-context": "3.3.2"
+    "react-native-safe-area-context": "3.3.2",
+    "@react-native-async-storage/async-storage": "^1.15.11",
+    "@react-native-community/datetimepicker": "3.5.2",
+    "@react-navigation/native": "^6.0.6",
+    "@react-navigation/native-stack": "^6.2.5",
+    "firebase": "^9.4.0",
+    "react-native-keyboard-aware-scroll-view": "^0.9.5",
+    "react-native-screens": "~3.8.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.12.9"
+    "@babel/core": "^7.12.9",
+    "eslint": "7.32.0",
+    "eslint-config-universe": "^8.0.0",
+    "eslint-plugin-auto-import": "^0.1.1",
+    "eslint-plugin-import": "^2.25.3",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-react-native": "^3.11.0",
+    "prettier": "^2.4.1"
   },
   "private": true
 }
