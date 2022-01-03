@@ -9,22 +9,22 @@ export default function HistoryPage(props) {
   const [history, setHistory] = useState([]);
 
   // Process history item deletion request
-  const twoButtonAlert = () =>
-    Alert.alert('Biztos töröljem?', 'Ez esetben nyomj OK-t!', [
-      {
-        text: 'Cancel',
-        onPress: () => console.log('Cancel Pressed'),
-      },
-      {
-        text: 'OK', onPress: () => {
-          console.log(props.userData.email, history[0].id),
-            deleteHistoryById(props.userData.email, history[0].id),
-            setHistory(history.previousState),
-            props.toggleUserState()
-          props.navigation.navigate('Munkaidő Nyilvántartó')
-        }
-      },
-    ]);
+  // const twoButtonAlert = () =>
+  //   Alert.alert('Biztos töröljem?', 'Ez esetben nyomj OK-t!', [
+  //     {
+  //       text: 'Cancel',
+  //       onPress: () => console.log('Cancel Pressed'),
+  //     },
+  //     {
+  //       text: 'OK', onPress: () => {
+  //         console.log(props.userData.email, history[0].id),
+  //           deleteHistoryById(props.userData.email, history[0].id),
+  //           setHistory(history.previousState),
+  //           props.toggleUserState()
+  //         props.navigation.navigate('Munkaidő Nyilvántartó')
+  //       }
+  //     },
+  //   ]);
 
   const renderItem = ({ item, index }) => (
 
@@ -32,27 +32,35 @@ export default function HistoryPage(props) {
       style={[
         styles.historyItemContainer,
         styles.shadow,
-        item.state === 'in' ? styles.containerIn : styles.containerOut,
+        styles.containerIn,
       ]}>
       <View style={styles.historyTextContainer}>
 
         <View>
-          < Text style={styles.currentStateText}>{item.date.toDate().toLocaleString('hu-HU')}</Text>
+          < Text style={styles.currentStateText}>{item.day}</Text>
           <Text
             style={[
               styles.currentStateText,
-              item.state === 'in' ? styles.currentStateTextIn : styles.currentStateTextOut,
+              styles.currentStateTextIn,
             ]}>
-            {item.state === 'in' ? 'bejött' : 'távozott'}
+            {item.sport}
           </Text>
+          <Text
+            style={[
+              styles.currentStateText,
+              styles.currentStateTextIn,
+            ]}>
+            {item.steps}
+          </Text>
+
         </View>
 
-        {/* Delete button */}
+        {/* Delete button
         <View style={styles.kuka}>
           {index == 0 && (<TouchableOpacity >
             <SvgXml width="30" height="30" xml={trashIcon} onPress={twoButtonAlert} />
           </TouchableOpacity>)}
-        </View>
+        </View> */}
 
       </View>
 
@@ -61,7 +69,7 @@ export default function HistoryPage(props) {
 
   useEffect(() => {
     (async () => {
-      console.log(props.userData.email);
+      // console.log(props.userData.email);
       const historyFromFirebase = await getHistory(props.userData.email);
       setHistory(historyFromFirebase);
     })();
@@ -99,7 +107,7 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   containerIn: {
-    backgroundColor: 'green',
+    backgroundColor: 'grey',
   },
   containerOut: {
     backgroundColor: 'red',

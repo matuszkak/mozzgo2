@@ -1,12 +1,18 @@
 import React, { useState } from 'react';
 import { Text, StyleSheet, TextInput, Button, View, Modal, TouchableOpacity } from 'react-native';
+import { saveStepsOnFirebase } from '../database';
 
 const AddToSteps = props => {
   const [enteredSteps, setEnteredSteps] = useState('');
+  const [enteredSport, setEnteredSport] = useState('');
+  const [enteredDate, setEnteredDate] = useState('');
 
   const inputHandler = enteredText => {
-    setEnteredSteps(enteredText);
+    setEnteredSteps(enteredText)
   };
+  const inputHandler2 = enteredSport => { setEnteredSport(enteredSport) };
+  const inputHandler3 = enteredDate => { setEnteredDate(enteredDate) };
+
 
   return (
     <Modal visible={props.visible} animationType={'slide'}>
@@ -17,11 +23,26 @@ const AddToSteps = props => {
           onChangeText={inputHandler}
           value={enteredSteps}
         />
+        <TextInput
+          style={styles.textInput}
+          placeholder="Which sport?"
+          onChangeText={inputHandler2}
+          value={enteredSport}
+        />
+        <TextInput
+          style={styles.textInput}
+          placeholder="Which date?"
+          onChangeText={inputHandler3}
+          value={enteredDate}
+        />
+
         <View style={styles.buttonContainer}>
           <TouchableOpacity
             style={styles.buttonView}
             onPress={() => {
               setEnteredSteps('');
+              setEnteredSport('');
+              setEnteredDate('');
               props.onCancel();
             }}>
             <Text style={styles.buttonText}>Cancel</Text>
@@ -30,7 +51,7 @@ const AddToSteps = props => {
             style={styles.buttonView}
             onPress={() => {
               props.onAdd(enteredSteps);
-              props.extra = props.extra + enteredSteps;
+              saveStepsOnFirebase(props.userData.email, enteredSport, enteredDate, enteredSteps);
               setEnteredSteps('');
               props.onCancel();
             }}>

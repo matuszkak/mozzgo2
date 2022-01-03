@@ -4,6 +4,7 @@ import * as React from 'react';
 import Chart from './Chart';
 import SettingsPage from './SettingsPage';
 import StatusPage from './StatusPage';
+import HistoryPage from './HistoryPage';
 
 const Stack = createNativeStackNavigator();
 function InnerPage(props) {
@@ -23,6 +24,15 @@ function InnerPage(props) {
         <Stack.Screen name="Add steps">
           {navigatorProps => (
             <Chart
+              {...navigatorProps}
+              userData={props.userData}
+              toggleUserState={props.toggleUserState}
+            />
+          )}
+        </Stack.Screen>
+        <Stack.Screen name="History of steps">
+          {navigatorProps => (
+            <HistoryPage
               {...navigatorProps}
               userData={props.userData}
               toggleUserState={props.toggleUserState}

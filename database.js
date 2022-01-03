@@ -13,6 +13,7 @@ import {
   addDoc,
   updateDoc,
   serverTimestamp,
+  where,
 } from 'firebase/firestore';
 
 import config from './db_config';
@@ -59,7 +60,7 @@ export async function getUserDataByEmail(email) {
 
 export async function saveStepsOnFirebase(email, sport, day, steps) {
   // collection -> document -> collection
-  console.log('saving started...')
+  // console.log('saving started...')
   await addDoc(collection(db, 'users', email, 'history'), {
     date: serverTimestamp(),
     sport: sport,
@@ -83,6 +84,39 @@ export async function getHistory(email) {
   });
   return result;
 }
+
+export async function getHistoryBySport(email, sport) {
+  // https://firebase.google.com/docs/firestore/query-data/get-data#get_multiple_documents_from_a_collection
+  const q = query(collection(db, 'users', email, 'history'), where("sport", "==", sport), orderBy('day', 'desc'), limit(40));
+  const querySnapshot = await getDocs(q);
+  const result = [];
+  querySnapshot.forEach(doc => {
+    const data = {
+      ...doc.data(),
+      id: doc.id,
+    };
+    result.push(data);
+    // console.log(result);
+  });
+  return result;
+}
+
+export async function getHistoryByDay(email, day) {
+  // https://firebase.google.com/docs/firestore/query-data/get-data#get_multiple_documents_from_a_collection
+  const q = query(collection(db, 'users', email, 'history'), where("day", "==", day), orderBy('sport', 'desc'), limit(40));
+  const querySnapshot = await getDocs(q);
+  const result = [];
+  querySnapshot.forEach(doc => {
+    const data = {
+      ...doc.data(),
+      id: doc.id,
+    };
+    result.push(data);
+    // console.log(result);
+  });
+  return result;
+}
+
 
 // export async function deleteHistoryById(email, id) {
 //   await deleteDoc(doc(db, 'users', email, 'history', id));
