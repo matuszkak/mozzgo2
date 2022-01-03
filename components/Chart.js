@@ -5,6 +5,7 @@ import { BarChart } from 'react-native-chart-kit';
 // import { Pedometer } from 'expo-sensors';
 import AddToSteps from './AddToSteps';
 import useStepCounter from './CounterLogic';
+import saveStepHistoryOnFirebase from '../db.js';
 
 import { formatDate, converttoDay, getMonday, getyesterday, get2daybefore, get3daybefore, get4daybefore, get5daybefore, get6daybefore } from './FormatDate.js';
 
@@ -48,6 +49,41 @@ export default function Chart(props) {
   const [totalStepCount, settotalStepCount] = useStepCounter();
   const [extra, setextra] = useState('0');
   const [isAddPopupVisible, setisAddPopupVisible] = useState(false);
+
+  const currentTime = new Date();
+
+  useEffect(() => {
+    updateData(currentTime);
+  }, [totalStepCount])
+
+  const updateData = (currentTime) => {
+    console.log('updateData has been called', totalStepCount)
+    const endingTime = new Date().setHours(23, 59, 59, 999);
+    const milliseconds = Math.abs(endingTime - currentTime.getTime());
+    // const MILLISECONDS_IN_A_DAY = 86400000;
+
+    saveStepHistoryOnFirebase(props.userData.email, "foci", "2021-12-31 12:00:00", totalStepCount);
+  }
+  //   let postAtMidNight = setTimeout(function tick() {
+
+  //     if (idArr.length >= 2 && currentWeekDay === 0) {
+  //       props.removeData({ id: idArr[0] });
+  //     }
+  //     if (idArr.length === 0 && Object.key(props.record).length === 0) {
+  //       props.postRecord({ data: totalStepCount })
+  //     }
+  //     if (idArr.length === 0 || currentWeekDay === 0) {
+  //       props.createNewWeek({ date: currentWeekDay, steps: totalStepCount });
+  //     } else {
+  //       props.updateData({ id: idArr[idArr.length - 1], date: currentWeekDay, steps: totalStepCount });
+  //       if (totalStepCount > props.record.data) {
+  //         props.patchRecord({ id: props.record._id, data: totalStepCount })
+  //       }
+  //     }
+
+  //     postAtMidNight = setTimeout(tick, MILLISECONDS_IN_A_DAY)
+  //   }, milliseconds)
+  // }
 
   function AddSteps(steps) {
     console.log(steps);
@@ -157,5 +193,3 @@ const styles = StyleSheet.create({
   },
 
 });
-
-

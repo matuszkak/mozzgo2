@@ -14,16 +14,16 @@ export default function StatusPage(props) {
         // a props.userData.currentState itt még nem használható ezért inkább a toggleUserState
         // visszatérési értékét használjuk!
         saveHistoryOnFirebase(props.userData.email, newState);
-        generateImage();
+        // generateImage();
         // setCurrentStatus(previousState => !previousState);
     };
 
-    const generateImage = async () => {
-        const response = await fetch('https://inspirobot.me/api?generate=true');
-        const data = await response.text()
-        console.log(data)
-        setLink(data);
-    };
+    // const generateImage = async () => {
+    //     const response = await fetch('https://inspirobot.me/api?generate=true');
+    //     const data = await response.text()
+    //     console.log(data)
+    //     setLink(data);
+    // };
 
     useEffect(() => {
         (async () => {
@@ -32,7 +32,7 @@ export default function StatusPage(props) {
             await storeUserData(userData);
             console.log(`${userData.name} received when innerpage loaded`);
             props.setUserData(userData);
-            generateImage();
+            // generateImage();
         })();
     }, []);
 

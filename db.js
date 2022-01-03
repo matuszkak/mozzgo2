@@ -49,21 +49,24 @@ export async function getUserDataByEmail(email) {
   return null;
 }
 
-export async function toggleStateOnFirebase(email, newState) {
-  // https://firebase.google.com/docs/firestore/manage-data/add-data#update-data
-  // collection -> document
-  await updateDoc(doc(db, 'users', email), {
-    currentState: newState,
-  });
-}
+// export async function toggleStateOnFirebase(email, newState) {
+//   // https://firebase.google.com/docs/firestore/manage-data/add-data#update-data
+//   // collection -> document
+//   await updateDoc(doc(db, 'users', email), {
+//     currentState: newState,
+//   });
+// }
 
-export async function saveHistoryOnFirebase(email, newState) {
+export async function saveStepHistoryOnFirebase(email, sport, day, steps) {
   // collection -> document -> collection
   await addDoc(collection(db, 'users', email, 'history'), {
     date: serverTimestamp(),
-    state: newState,
+    email: email,
+    sport: sport,
+    day: day,
+    steps: steps,
   });
-  console.log(`state of ${email} was saved in the database width: ${newState}`);
+  console.log(`${steps} steps of ${email} were saved in the database for ${sport} for ${date}`);
 }
 
 export async function getHistory(email) {
@@ -81,6 +84,6 @@ export async function getHistory(email) {
   return result;
 }
 
-export async function deleteHistoryById(email, id) {
-  await deleteDoc(doc(db, 'users', email, 'history', id));
-}
+// export async function deleteHistoryById(email, id) {
+//   await deleteDoc(doc(db, 'users', email, 'history', id));
+// }
