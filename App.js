@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 import InnerPage from './components/InnerPage';
 import LoginPage from './components/LoginPage';
-import { toggleStateOnFirebase } from './db';
+import { toggleStateOnFirebase } from './database';
 import { getUserData } from './localStorage';
 
 export default function App() {

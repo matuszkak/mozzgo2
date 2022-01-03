@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet, View, Text, FlatList, TouchableOpacity, YellowBox, Alert } from 'react-native';
 import { SvgXml } from 'react-native-svg';
 import trashIcon from '../assets/Trash_font_awesome.js';
-import { deleteHistoryById, getHistory } from '../db';
+import { deleteHistoryById, getHistory } from '../database';
 
 
 export default function HistoryPage(props) {

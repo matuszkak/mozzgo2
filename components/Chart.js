@@ -5,7 +5,7 @@ import { BarChart } from 'react-native-chart-kit';
 // import { Pedometer } from 'expo-sensors';
 import AddToSteps from './AddToSteps';
 import useStepCounter from './CounterLogic';
-import saveStepHistoryOnFirebase from '../db.js';
+import { saveStepsOnFirebase } from '../database';
 
 import { formatDate, converttoDay, getMonday, getyesterday, get2daybefore, get3daybefore, get4daybefore, get5daybefore, get6daybefore } from './FormatDate.js';
 
@@ -45,24 +45,39 @@ var db5_day = converttoDay(dbefore5.getDay());
 var db6_day = converttoDay(dbefore6.getDay());
 
 export default function Chart(props) {
+  const currentTime = new Date();
 
   const [totalStepCount, settotalStepCount] = useStepCounter();
   const [extra, setextra] = useState('0');
   const [isAddPopupVisible, setisAddPopupVisible] = useState(false);
+  const [sport, setSport] = useState('foci');
+  const [day, setDay] = useState(currentTime.toLocaleDateString());
 
-  const currentTime = new Date();
+  useEffect(() => {
+    (async () => {
+      saveStepsOnFirebase(props.userData.email, sport, day, totalStepCount);
+      console.log('saving theoretically done!');
+    })();
+  }, []);
+
 
   useEffect(() => {
     updateData(currentTime);
-  }, [totalStepCount])
+  }, [totalStepCount]);
+
+
+  const save = () => saveStepsOnFirebase(props.userData.email, sport, day, totalStepCount);
+
+  setTimeout(save, 10000);
 
   const updateData = (currentTime) => {
     console.log('updateData has been called', totalStepCount)
     const endingTime = new Date().setHours(23, 59, 59, 999);
-    const milliseconds = Math.abs(endingTime - currentTime.getTime());
+    const milliseconds = Math.abs(endingTime - currentTime);
     // const MILLISECONDS_IN_A_DAY = 86400000;
 
-    saveStepHistoryOnFirebase(props.userData.email, "foci", "2021-12-31 12:00:00", totalStepCount);
+
+    saveStepsOnFirebase(props.userData.email, sport, day, totalStepCount);
   }
   //   let postAtMidNight = setTimeout(function tick() {
 

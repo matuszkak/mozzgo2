@@ -13,7 +13,7 @@ import {
 
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { signIn, signUp } from '../auth';
-import { createUserOnFirebase, getUserDataByEmail } from '../db';
+import { createUserOnFirebase, getUserDataByEmail } from '../database';
 import { storeUserData } from '../localStorage';
 import { resetPassword } from '../auth';
 

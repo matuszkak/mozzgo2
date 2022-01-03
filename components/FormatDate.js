@@ -9,7 +9,7 @@ function formatDate(date) {
     minute = d.getMinutes(),
     second = d.getSeconds();
 
-  console.log(parseInt(second).length);
+
   if (month.length < 2)
     month = '0' + month;
   if (day.length < 2)

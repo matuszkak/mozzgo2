@@ -57,16 +57,16 @@ export async function getUserDataByEmail(email) {
 //   });
 // }
 
-export async function saveStepHistoryOnFirebase(email, sport, day, steps) {
+export async function saveStepsOnFirebase(email, sport, day, steps) {
   // collection -> document -> collection
+  console.log('saving started...')
   await addDoc(collection(db, 'users', email, 'history'), {
     date: serverTimestamp(),
-    email: email,
     sport: sport,
     day: day,
     steps: steps,
   });
-  console.log(`${steps} steps of ${email} were saved in the database for ${sport} for ${date}`);
+  console.log(`${steps} steps of ${email} were saved in the database for ${sport} for ${day}`);
 }
 
 export async function getHistory(email) {

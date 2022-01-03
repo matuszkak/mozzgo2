@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, Switch, TouchableOpacity, Image } from 'react-native';
 import { loginStatus } from '../auth';
-import { getUserDataByEmail, saveHistoryOnFirebase } from '../db';
+import { getUserDataByEmail } from '../database';
 import { storeUserData } from '../localStorage';
 
 export default function StatusPage(props) {
@@ -9,14 +9,14 @@ export default function StatusPage(props) {
 
     const [link, setLink] = useState('');
 
-    const toggleSwitch = () => {
-        const newState = props.toggleUserState();
-        // a props.userData.currentState itt még nem használható ezért inkább a toggleUserState
-        // visszatérési értékét használjuk!
-        saveHistoryOnFirebase(props.userData.email, newState);
-        // generateImage();
-        // setCurrentStatus(previousState => !previousState);
-    };
+    // const toggleSwitch = () => {
+    //     const newState = props.toggleUserState();
+    //     // a props.userData.currentState itt még nem használható ezért inkább a toggleUserState
+    //     // visszatérési értékét használjuk!
+    //     saveHistoryOnFirebase(props.userData.email, newState);
+    //     // generateImage();
+    //     // setCurrentStatus(previousState => !previousState);
+    // };
 
     // const generateImage = async () => {
     //     const response = await fetch('https://inspirobot.me/api?generate=true');
