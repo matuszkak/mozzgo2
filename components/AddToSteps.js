@@ -17,21 +17,24 @@ const AddToSteps = props => {
   return (
     <Modal visible={props.visible} animationType={'slide'}>
       <View style={styles.inputContainer}>
-        <TextInput
-          style={styles.textInput}
-          placeholder="How many steps to add?"
-          onChangeText={inputHandler}
-          value={enteredSteps}
-        />
+
         <TextInput
           style={styles.textInput}
           placeholder="Which sport?"
           onChangeText={inputHandler2}
           value={enteredSport}
         />
+
         <TextInput
           style={styles.textInput}
-          placeholder="Which date?"
+          placeholder="How many steps to add?"
+          onChangeText={inputHandler}
+          value={enteredSteps}
+        />
+
+        <TextInput
+          style={styles.textInput}
+          placeholder="Which date? --- yyyy/mm/dd"
           onChangeText={inputHandler3}
           value={enteredDate}
         />
@@ -50,12 +53,11 @@ const AddToSteps = props => {
           <TouchableOpacity
             style={styles.buttonView}
             onPress={() => {
-              props.onAdd(enteredSteps);
               saveStepsOnFirebase(props.userData.email, enteredSport, enteredDate, enteredSteps);
               setEnteredSteps('');
               props.onCancel();
             }}>
-            <Text style={styles.buttonText}>Add</Text>
+            <Text style={styles.buttonText}>    Add    </Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -65,11 +67,12 @@ const AddToSteps = props => {
 
 const styles = StyleSheet.create({
   textInput: {
-    borderColor: 'black',
+    borderColor: '#148F77',
     borderWidth: 1,
     padding: 10,
     width: '70%',
     borderRadius: 20,
+    marginVertical: 5,
   },
   buttonContainer: {
     flexDirection: 'row',
@@ -78,10 +81,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   inputContainer: {
+    paddingTop: '20%',
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
     flex: 1,
+
   },
   buttonView: {
     elevation: 8,
@@ -94,7 +99,7 @@ const styles = StyleSheet.create({
   buttonText: {
     fontSize: 18,
     color: '#fff',
-    fontWeight: 'bold',
+    fontWeight: '400',
     alignSelf: 'center',
     textTransform: 'uppercase',
   },

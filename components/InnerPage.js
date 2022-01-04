@@ -5,6 +5,7 @@ import Chart from './Chart';
 import SettingsPage from './SettingsPage';
 import StatusPage from './StatusPage';
 import HistoryPage from './HistoryPage';
+import Home from './Home';
 
 const Stack = createNativeStackNavigator();
 function InnerPage(props) {
@@ -18,6 +19,14 @@ function InnerPage(props) {
               setUserData={props.setUserData}
               userData={props.userData}
               toggleUserState={props.toggleUserState}
+            />
+          )}
+        </Stack.Screen>
+        <Stack.Screen name="Home">
+          {navigatorProps => (
+            <Home
+              {...navigatorProps}
+              userData={props.userData}
             />
           )}
         </Stack.Screen>
