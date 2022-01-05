@@ -1,24 +1,16 @@
 import React, { useState } from 'react';
 import { Text, StyleSheet, TextInput, Button, View, Modal, TouchableOpacity, SafeAreaView } from 'react-native';
 import { saveStepsOnFirebase } from '../database';
-
 import Slider from '@react-native-community/slider';
 
 
-
 const AddToSteps = props => {
-  // const [enteredSteps, setEnteredSteps] = useState('');
   const [sliderValue, setSliderValue] = useState(1000);
   const [enteredSport, setEnteredSport] = useState('');
   const [enteredDate, setEnteredDate] = useState('');
 
-  // const inputHandler = enteredText => {
-  //   setEnteredSteps(enteredText)
-  // };
-
   const inputHandler2 = enteredSport => { setEnteredSport(enteredSport) };
   const inputHandler3 = enteredDate => { setEnteredDate(enteredDate) };
-
 
   return (
     <Modal visible={props.visible} animationType={'slide'}>
@@ -38,11 +30,10 @@ const AddToSteps = props => {
         />
         <View style={{ flex: 0.2 }}>
           <View style={styles.containerxxx}>
-            {/*Text to show slider value*/}
+
             <Text style={{ color: 'black' }}>                   How many steps to add?                 </Text>
             <Text style={{ color: 'black', textAlign: 'center' }}>{sliderValue}</Text>
 
-            {/*Slider with max, min, step and initial value*/}
             <Slider
               maximumValue={10000}
               minimumValue={0}
@@ -60,7 +51,6 @@ const AddToSteps = props => {
             style={styles.buttonView}
             onPress={() => {
               console.log(enteredSport, enteredDate, sliderValue)
-              // setEnteredSteps('');
               setEnteredSport('');
               setEnteredDate('');
               setSliderValue('0');
@@ -72,7 +62,6 @@ const AddToSteps = props => {
             style={styles.buttonView}
             onPress={() => {
               saveStepsOnFirebase(props.userData.email, enteredSport, enteredDate, sliderValue);
-              // setEnteredSteps('');
               setEnteredSport('');
               setEnteredDate('');
               setSliderValue('0');

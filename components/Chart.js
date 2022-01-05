@@ -1,15 +1,10 @@
-// import all the components we are going to use
 import React, { useState, useEffect, setState } from 'react';
-
 import { StatusBar } from 'expo-status-bar';
 import { StackedBarChart } from 'react-native-chart-kit';
-// import { Pedometer } from 'expo-sensors';
 import AddToSteps from './AddToSteps';
 import useStepCounter from './CounterLogic';
 import { getHistory, getHistoryBySport, getHistoryByDay, saveStepsOnFirebase } from '../database';
-
 import { formatDate, converttoDay, getMonday, getyesterday, get2daybefore, get3daybefore, get4daybefore, get5daybefore, get6daybefore } from './FormatDate.js';
-
 import {
   SafeAreaView,
   Image,
@@ -21,8 +16,6 @@ import {
   Button,
   TouchableOpacity,
 } from 'react-native';
-
-// import assets
 import logo from '../assets/footz.jpg';
 import appname from '../assets/Mozzgogif2.gif';
 
@@ -37,7 +30,6 @@ const dbefore4 = get4daybefore(new Date().setHours(0, 0, 0, 0));
 const dbefore5 = get5daybefore(new Date().setHours(0, 0, 0, 0));
 const dbefore6 = get6daybefore(new Date().setHours(0, 0, 0, 0));
 
-
 var t_day = converttoDay(end.getDay());
 var y_day = converttoDay(yesterday.getDay());
 var db2_day = converttoDay(dbefore2.getDay());
@@ -48,19 +40,12 @@ var db6_day = converttoDay(dbefore6.getDay());
 
 export default function Chart(props) {
   const currentTime = new Date();
-
   const [weeklySteps, setweeklySteps] = useStepCounter();
-
-  const [weeklyStepsALL, setweeklyStepsALL] = useState([]);
+  const [weeklyStepsWoWalking, setweeklyStepsWoWalking] = useState([]);
+  const [sevendaySteps, setSevendaySteps] = useState(0);
   const [isAddPopupVisible, setisAddPopupVisible] = useState(false);
   const [sport, setSport] = useState('walking');
   const [day, setDay] = useState(currentTime.toLocaleDateString());
-
-  // calculate no. of steps for the last 7 days
-  var SevendaySteps = 0;
-  for (let i = 1; i < 7; i++) {
-    SevendaySteps = SevendaySteps + weeklySteps[i];
-  }
 
   // apply date format yyyy/mm/dd
   function dateyyyymmdd(date) {
@@ -86,9 +71,13 @@ export default function Chart(props) {
   week[6] = dateyyyymmdd(dbefore6);
   // console.log(week);
 
+  function addArrayElements(total, num) {
+    return total + num;
+  }
+
   useEffect(() => {
 
-    // sync db if no data for the last few days within the week
+    // SYNC DB IF NO DATA FOR THE LAST (FEW) DAYS - FOR MAX. 7 DAYS
     var checksport = sport;
 
     (async () => {
@@ -124,53 +113,89 @@ export default function Chart(props) {
 
   useEffect(() => {
 
+    // calculate no. of steps for the last 7 days
+
+    var sds = weeklySteps.reduce(addArrayElements);
+    setSevendaySteps(sds);
+    // console.log(sds);
+
     // aggregate data in case of a change
 
     (async () => {
 
-      // aggregate steps for ALL sports for last 7 days
-      var w = [];
+      // AGGREGATE STEPS OTHER THAN WALKING FROM DB FOR LAST 7 DAYS
 
-      var dailyrecords = [];
+      var dailyrecords = []; // records for ALL sport for a given day
+      var allrecords = []; // list of records for last 7 days - list of objects
+      var recordswowalking = []; // list of records for ALL sports EXCEPT WALKING for last 7 days - list of objects
+      var allsteps = []; // list of steps for ALL sports for last 7 days - list of num
+      var nonWalkingRecordsForADay = [];
+      var dailyStepsWoWalking = 0;
+
+
       // console.log(week);
+      // records for last seven days
       for (let m = 0; m < 7; m++) {
         dailyrecords = await getHistoryByDay(props.userData.email, week[m]);
         // console.log(dailyrecords);
 
+        // aggregate steps for different sports for a certain day
+        // and collect all records for last 7 days
         var a = 0;
-
         for (let l = 0; l < dailyrecords.length; l++) {
           a = a + parseInt(dailyrecords[l].steps);
+          allrecords.push(dailyrecords[l]);
         }
-        w.push(a);
+        allsteps.push(a);
+
+      };
+      // console.log(allrecords);
+      // console.log(allsteps);
+
+      // exclude walking
+      recordswowalking = allrecords.filter(record => record.sport != 'walking');
+      // console.log(recordswowalking);
+
+      // non-walking steps for last 7 days
+      var zs = [];
+      for (let r = 0; r < 7; r++) {
+        nonWalkingRecordsForADay = recordswowalking.filter(record => record.day == week[r]);
+        dailyStepsWoWalking = 0;
+        for (let q = 0; q < nonWalkingRecordsForADay.length; q++) {
+          dailyStepsWoWalking = dailyStepsWoWalking + nonWalkingRecordsForADay[q].steps;
+        };
+        // console.log(week[r] + " - " + dailyStepsWoWalking);
+        zs.push(dailyStepsWoWalking);
       };
 
-      w[0] = w[0] + weeklySteps[0];
+
+      setweeklyStepsWoWalking(zs);
 
       console.log("***");
-      // console.log(w);
-      setweeklyStepsALL(w);
-      console.log(weeklyStepsALL);
+      console.log(weeklyStepsWoWalking);
       console.log(weeklySteps);
 
     })();
   }, [weeklySteps[1]]);
 
-  var extra = []
-  const weALL = 110;
-  const we = 10;
+
+
+
+  var extra = [];
+  var weALL = 0;
+  const we = 110;
   for (let n = 0; n < 7; n++) {
-    extra.push((weALL - we) * Math.floor(Math.random() * 10));
+    extra.push(we * Math.floor(Math.random() * 10));
   };
-  console.log(extra);
+  weALL = extra.reduce(addArrayElements);
 
 
   return (
     <View style={styles.container}>
 
-      <Text style={{ color: '#148F77', fontSize: 18, fontWeight: '300', marginTop: 20 }}>Steps in a week: {SevendaySteps}</Text>
+      <Text style={{ color: '#148F77', fontSize: 18, fontWeight: '300', marginTop: 20 }}>Steps in a week: {sevendaySteps + weALL}</Text>
 
-      <Text style={{ color: '#148F77', fontSize: 18, fontWeight: '300', marginTop: 10 }}>Move your ass watch this go up: {weeklySteps[0]}</Text>
+      <Text style={{ color: '#148F77', fontSize: 18, fontWeight: '300', marginTop: 10 }}>Move your ass watch this go up: {weeklySteps[0] + extra[0]}</Text>
 
       <Text style={{ color: '#148F77', fontSize: 18, fontWeight: '300', marginTop: 10 }}>{formatDate(new Date())}</Text>
       <Text></Text>
