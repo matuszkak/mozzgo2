@@ -19,6 +19,7 @@ import {
   Dimensions,
   ScrollView,
   Button,
+  TouchableOpacity,
 } from 'react-native';
 
 // import assets
@@ -166,16 +167,17 @@ export default function Chart(props) {
 
   return (
     <View style={styles.container}>
-      <Image source={logo} style={{ width: 100, height: 100 }} />
-      <Image source={appname} style={{ width: 150, height: 100 }} />
 
-      <Text style={{ color: '#148F77', fontSize: 18, fontWeight: '300' }}>{formatDate(new Date())}</Text>
+      <Text style={{ color: '#148F77', fontSize: 18, fontWeight: '300', marginTop: 20 }}>Steps in a week: {SevendaySteps}</Text>
+
+      <Text style={{ color: '#148F77', fontSize: 18, fontWeight: '300', marginTop: 10 }}>Move your ass watch this go up: {weeklySteps[0]}</Text>
+
+      <Text style={{ color: '#148F77', fontSize: 18, fontWeight: '300', marginTop: 10 }}>{formatDate(new Date())}</Text>
       <Text></Text>
 
-      <Text style={{ color: '#148F77', fontSize: 18, fontWeight: '300' }}>Steps in a week: {SevendaySteps}</Text>
+      <Image source={logo} style={{ width: 100, height: 100, marginBottom: -10 }} />
+      <Image source={appname} style={{ width: 150, height: 100, marginBottom: -20 }} />
 
-      <Text></Text>
-      <Text style={{ color: '#148F77', fontSize: 18, fontWeight: '300', marginBottom: 10 }}>Move your ass watch this go up: {weeklySteps[0]}</Text>
 
 
       <StackedBarChart
@@ -226,16 +228,26 @@ export default function Chart(props) {
           marginHorizontal: 0,
           borderRadius: 20,
           marginBottom: -70,
-        }}
-      />
-      <Button
-        title={'Add steps'}
-        onPress={() => {
-          // window.alert('ez egy popup');
+          shadowColor: '#171717',
+          shadowOffset: { width: -2, height: 4 },
+          shadowOpacity: 0.2,
+          shadowRadius: 3,
 
-          setisAddPopupVisible(true);
         }}
       />
+      <View style={styles.inputContainer}>
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity
+            style={styles.buttonView}
+            onPress={() => {
+              setisAddPopupVisible(true);
+            }}>
+            <Text style={styles.buttonText}> Add steps </Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+
+
       <AddToSteps
         userData={props.userData}
         visible={isAddPopupVisible}
@@ -255,6 +267,35 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: 'white'
+  },
+  buttonContainer: {
+    // flexDirection: 'row',
+    marginTop: -30,
+    width: '100%',
+    justifyContent: 'center',
+  },
+  inputContainer: {
+    // paddingTop: '20%',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flex: 1,
+
+  },
+  buttonView: {
+    elevation: 8,
+    backgroundColor: '#009688',
+    borderRadius: 12,
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+    margin: 10,
+  },
+  buttonText: {
+    fontSize: 18,
+    color: '#fff',
+    fontWeight: '400',
+    alignSelf: 'center',
+    textTransform: 'uppercase',
   },
 
 });

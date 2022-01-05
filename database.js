@@ -118,6 +118,6 @@ export async function getHistoryByDay(email, day) {
 }
 
 
-// export async function deleteHistoryById(email, id) {
-//   await deleteDoc(doc(db, 'users', email, 'history', id));
-// }
+export async function deleteRecordById(email, id) {
+  await deleteDoc(doc(db, 'users', email, 'history', id));
+}

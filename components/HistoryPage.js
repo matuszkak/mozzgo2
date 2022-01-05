@@ -2,29 +2,28 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet, View, Text, FlatList, TouchableOpacity, YellowBox, Alert } from 'react-native';
 import { SvgXml } from 'react-native-svg';
 import trashIcon from '../assets/Trash_font_awesome.js';
-import { deleteHistoryById, getHistory } from '../database';
+import { deleteRecordById, getHistory } from '../database';
 
 
 export default function HistoryPage(props) {
   const [history, setHistory] = useState([]);
 
   // Process history item deletion request
-  // const twoButtonAlert = () =>
-  //   Alert.alert('Biztos töröljem?', 'Ez esetben nyomj OK-t!', [
-  //     {
-  //       text: 'Cancel',
-  //       onPress: () => console.log('Cancel Pressed'),
-  //     },
-  //     {
-  //       text: 'OK', onPress: () => {
-  //         console.log(props.userData.email, history[0].id),
-  //           deleteHistoryById(props.userData.email, history[0].id),
-  //           setHistory(history.previousState),
-  //           props.toggleUserState()
-  //         props.navigation.navigate('Munkaidő Nyilvántartó')
-  //       }
-  //     },
-  //   ]);
+  const twoButtonAlert = (id) =>
+    Alert.alert('Biztos töröljem?', 'Ez esetben nyomj OK-t!', [
+      {
+        text: 'Cancel',
+        onPress: () => console.log('Cancel Pressed'),
+      },
+      {
+        text: 'OK', onPress: () => {
+          console.log(`Steps were deleted from database. Id: ${id}`),
+            deleteRecordById(props.userData.email, id),
+
+            props.navigation.navigate('Home')
+        }
+      },
+    ]);
 
   const renderItem = ({ item, index }) => (
 
@@ -32,46 +31,50 @@ export default function HistoryPage(props) {
       style={[
         styles.historyItemContainer,
         styles.shadow,
-        styles.containerIn,
+        styles.containerStep,
       ]}>
       <View style={styles.historyTextContainer}>
 
         <View>
-          < Text style={styles.currentStateText}>{item.day}</Text>
+          < Text style={styles.textStep}>{item.day}</Text>
           <Text
             style={[
-              styles.currentStateText,
-              styles.currentStateTextIn,
+              styles.textStep,
+              // styles.currentStateTextIn,
             ]}>
             {item.sport}
+            {/* {index} */}
           </Text>
           <Text
             style={[
-              styles.currentStateText,
-              styles.currentStateTextIn,
+              styles.textStep,
+              // styles.currentStateTextIn,
             ]}>
             {item.steps}
           </Text>
 
         </View>
 
-        {/* Delete button
-        <View style={styles.kuka}>
-          {index == 0 && (<TouchableOpacity >
-            <SvgXml width="30" height="30" xml={trashIcon} onPress={twoButtonAlert} />
-          </TouchableOpacity>)}
-        </View> */}
+        {/* Delete button */}
+        <View style={styles.bin}>
+          <TouchableOpacity >
+            <SvgXml width="30" height="30" xml={trashIcon} onPress={() => twoButtonAlert(item.id)} />
+          </TouchableOpacity>
+        </View>
 
       </View>
 
     </View >
   );
 
+
+
   useEffect(() => {
     (async () => {
       // console.log(props.userData.email);
       const historyFromFirebase = await getHistory(props.userData.email);
       setHistory(historyFromFirebase);
+      console.log(history)
     })();
   }, []);
 
@@ -91,10 +94,10 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   historyItemContainer: {
-    paddingHorizontal: 30,
-    paddingVertical: 10,
-    margin: 10,
-    borderRadius: 15,
+    paddingHorizontal: 40,
+    paddingVertical: 5,
+    margin: 5,
+    borderRadius: 12,
     flexDirection: 'row',
     alignItems: 'center',
   },
@@ -102,24 +105,24 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
 
   },
-  currentStateText: {
-    fontSize: 17,
-    color: 'white',
+  textStep: {
+    fontSize: 15,
+    color: '#148F77',
   },
-  containerIn: {
-    backgroundColor: 'grey',
+  containerStep: {
+    backgroundColor: '#E8F8F5',
   },
-  containerOut: {
-    backgroundColor: 'red',
-  },
+  // containerOut: {
+  //   backgroundColor: 'red',
+  // },
   shadow: {
     shadowColor: '#171717',
     shadowOffset: { width: -2, height: 4 },
     shadowOpacity: 0.2,
     shadowRadius: 3,
   },
-  kuka: {
-    marginLeft: 150,
-    marginTop: 5,
+  bin: {
+    marginLeft: 200,
+    marginTop: 10,
   },
 });

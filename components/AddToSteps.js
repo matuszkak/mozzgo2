@@ -1,15 +1,21 @@
 import React, { useState } from 'react';
-import { Text, StyleSheet, TextInput, Button, View, Modal, TouchableOpacity } from 'react-native';
+import { Text, StyleSheet, TextInput, Button, View, Modal, TouchableOpacity, SafeAreaView } from 'react-native';
 import { saveStepsOnFirebase } from '../database';
 
+import Slider from '@react-native-community/slider';
+
+
+
 const AddToSteps = props => {
-  const [enteredSteps, setEnteredSteps] = useState('');
+  // const [enteredSteps, setEnteredSteps] = useState('');
+  const [sliderValue, setSliderValue] = useState(1000);
   const [enteredSport, setEnteredSport] = useState('');
   const [enteredDate, setEnteredDate] = useState('');
 
-  const inputHandler = enteredText => {
-    setEnteredSteps(enteredText)
-  };
+  // const inputHandler = enteredText => {
+  //   setEnteredSteps(enteredText)
+  // };
+
   const inputHandler2 = enteredSport => { setEnteredSport(enteredSport) };
   const inputHandler3 = enteredDate => { setEnteredDate(enteredDate) };
 
@@ -24,28 +30,40 @@ const AddToSteps = props => {
           onChangeText={inputHandler2}
           value={enteredSport}
         />
-
-        <TextInput
-          style={styles.textInput}
-          placeholder="How many steps to add?"
-          onChangeText={inputHandler}
-          value={enteredSteps}
-        />
-
         <TextInput
           style={styles.textInput}
           placeholder="Which date? --- yyyy/mm/dd"
           onChangeText={inputHandler3}
           value={enteredDate}
         />
+        <View style={{ flex: 0.2 }}>
+          <View style={styles.containerxxx}>
+            {/*Text to show slider value*/}
+            <Text style={{ color: 'black' }}>                   How many steps to add?                 </Text>
+            <Text style={{ color: 'black', textAlign: 'center' }}>{sliderValue}</Text>
+
+            {/*Slider with max, min, step and initial value*/}
+            <Slider
+              maximumValue={10000}
+              minimumValue={0}
+              minimumTrackTintColor="#009688"
+              maximumTrackTintColor="#E8F8F5"
+              step={100}
+              value={sliderValue}
+              onValueChange={(sliderValue) => setSliderValue(sliderValue)}
+            />
+          </View>
+        </View>
 
         <View style={styles.buttonContainer}>
           <TouchableOpacity
             style={styles.buttonView}
             onPress={() => {
-              setEnteredSteps('');
+              console.log(enteredSport, enteredDate, sliderValue)
+              // setEnteredSteps('');
               setEnteredSport('');
               setEnteredDate('');
+              setSliderValue('0');
               props.onCancel();
             }}>
             <Text style={styles.buttonText}>Cancel</Text>
@@ -53,8 +71,11 @@ const AddToSteps = props => {
           <TouchableOpacity
             style={styles.buttonView}
             onPress={() => {
-              saveStepsOnFirebase(props.userData.email, enteredSport, enteredDate, enteredSteps);
-              setEnteredSteps('');
+              saveStepsOnFirebase(props.userData.email, enteredSport, enteredDate, sliderValue);
+              // setEnteredSteps('');
+              setEnteredSport('');
+              setEnteredDate('');
+              setSliderValue('0');
               props.onCancel();
             }}>
             <Text style={styles.buttonText}>    Add    </Text>
@@ -76,12 +97,12 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     flexDirection: 'row',
-    marginTop: 30,
+    marginTop: 20,
     width: '100%',
     justifyContent: 'center',
   },
   inputContainer: {
-    paddingTop: '20%',
+    paddingTop: '1%',
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
@@ -91,7 +112,7 @@ const styles = StyleSheet.create({
   buttonView: {
     elevation: 8,
     backgroundColor: '#009688',
-    borderRadius: 10,
+    borderRadius: 12,
     paddingVertical: 10,
     paddingHorizontal: 12,
     margin: 10,
@@ -103,6 +124,13 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     textTransform: 'uppercase',
   },
+  containerxxx: {
+    flex: 1,
+    padding: 20,
+    justifyContent: 'center',
+    backgroundColor: 'white',
+  },
 });
 
 export default AddToSteps;
+

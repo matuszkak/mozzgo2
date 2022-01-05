@@ -12,10 +12,10 @@ export default function SettingsPage(props) {
   };
 
   return (
-    <View>
+    <View style={styles.buttonContainer}>
       <TouchableOpacity
-        style={[styles.button, styles.shadow]} onPress={handleLogout}>
-        <Text style={styles.buttonText}>Sign out</Text>
+        style={styles.buttonView} onPress={handleLogout}>
+        <Text style={styles.buttonText}> SIGN OUT </Text>
       </TouchableOpacity>
     </View>
   );
@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     textAlign: 'center',
-    fontSize: 15,
+    fontSize: 18,
     color: 'white',
   },
   shadow: {
@@ -42,5 +42,19 @@ const styles = StyleSheet.create({
     shadowOffset: { width: -2, height: 4 },
     shadowOpacity: 0.2,
     shadowRadius: 3,
+  },
+  buttonView: {
+    elevation: 8,
+    backgroundColor: '#009688',
+    borderRadius: 12,
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+    margin: 10,
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    marginTop: 30,
+    width: '100%',
+    justifyContent: 'center',
   },
 });
