@@ -14,9 +14,10 @@ import DbSync from './Logics/DbSync';
 import logo from '../assets/footz.jpg';
 import appname from '../assets/Mozzgogif2.gif';
 
+
 export default function Home(props) {
 
-    // const [link, setLink] = useState('');
+
     const [weeklySteps, setweeklySteps] = useStepCounter();
 
     useEffect(() => {
@@ -80,9 +81,6 @@ const styles = StyleSheet.create({
     container: {
         padding: 10,
         alignItems: 'center',
-        // https://stackoverflow.com/a/59183680/9004180
-        // fixing the scrolling of the FlatList
-        // flex: 1 just means "take up the entire space" (whatever "entire" that may be).
         flex: 1,
         backgroundColor: 'white',
     },
@@ -116,7 +114,6 @@ const styles = StyleSheet.create({
         color: 'blue',
         backgroundColor: '#0091ff',
     },
-
     shadow: {
         shadowColor: '#171717',
         shadowOffset: { width: -2, height: 4 },
@@ -140,7 +137,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         flex: 1,
-
     },
     buttonView: {
         elevation: 8,
