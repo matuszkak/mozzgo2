@@ -5,12 +5,40 @@ import Slider from '@react-native-community/slider';
 
 
 const AddToSteps = props => {
-  const [sliderValue, setSliderValue] = useState(1000);
+  const [sliderValue, setSliderValue] = useState(30);
   const [enteredSport, setEnteredSport] = useState('Swimming');
   const [enteredDate, setEnteredDate] = useState('');
 
   const inputHandler2 = enteredSport => { setEnteredSport(enteredSport) };
   const inputHandler3 = enteredDate => { setEnteredDate(enteredDate) };
+
+  function ConvertToStep(sport) {
+
+    var multiplier = 0;
+    switch (sport) {
+      case "Basketball": multiplier = 145;
+        break;
+      case "Boxing": multiplier = 131;
+        break;
+      case "Gardening": multiplier = 80;
+        break;
+      case "Horseriding": multiplier = 90;
+        break;
+      case "Swimming": multiplier = 181;
+        break;
+      case "Tennis": multiplier = 200;
+        break;
+      case "Wallclimbing": multiplier = 270;
+        break;
+      case "Walking": multiplier = 84;
+        break;
+
+      default:
+        multiplier = 100;
+    }
+    return multiplier;
+  }
+
 
 
   return (
@@ -42,15 +70,15 @@ const AddToSteps = props => {
 
         <View style={styles.containerxxx}>
 
-          <Text style={{ color: 'black', fontSize: '18' }}>            How many steps to add?          </Text>
-          <Text style={{ color: 'black', textAlign: 'center', fontSize: '18' }}>{sliderValue}</Text>
+          <Text style={{ color: 'black', fontSize: 19 }}>          How many mins to add?         </Text>
+          <Text style={{ color: 'black', textAlign: 'center', fontSize: 19 }}>{sliderValue}</Text>
 
           <Slider
-            maximumValue={10000}
+            maximumValue={180}
             minimumValue={0}
             minimumTrackTintColor="#009688"
             maximumTrackTintColor="#E8F8F5"
-            step={100}
+            step={5}
             value={sliderValue}
             onValueChange={(sliderValue) => setSliderValue(sliderValue)}
           />
@@ -64,7 +92,7 @@ const AddToSteps = props => {
               console.log(enteredSport, enteredDate, sliderValue)
               setEnteredSport('');
               setEnteredDate('');
-              setSliderValue('0');
+              setSliderValue('30');
               props.onCancel();
             }}>
             <Text style={styles.buttonText}>Cancel</Text>
@@ -72,10 +100,10 @@ const AddToSteps = props => {
           <TouchableOpacity
             style={styles.buttonView}
             onPress={() => {
-              saveStepsOnFirebase(props.userData.email, enteredSport, enteredDate, sliderValue);
+              saveStepsOnFirebase(props.userData.email, enteredSport, enteredDate, sliderValue * ConvertToStep(enteredSport));
               setEnteredSport('');
               setEnteredDate('');
-              setSliderValue('0');
+              setSliderValue('30');
               props.onCancel();
             }}>
             <Text style={styles.buttonText}>    Add    </Text>
@@ -95,7 +123,11 @@ const styles = StyleSheet.create({
     width: '79%',
     borderRadius: 20,
     marginVertical: 5,
-    fontSize: 18,
+    fontSize: 20,
+    shadowColor: '#171717',
+    shadowOffset: { width: -2, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
   },
   buttonContainer: {
     flexDirection: 'row',
@@ -135,6 +167,10 @@ const styles = StyleSheet.create({
     borderColor: '#148F77',
     borderWidth: 1,
     backgroundColor: '#E8F8F5',
+    shadowColor: '#171717',
+    shadowOffset: { width: -2, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
   },
   container: {
     flex: 0.3,
@@ -146,6 +182,10 @@ const styles = StyleSheet.create({
     borderRadius: 32,
     borderColor: '#148F77',
     borderWidth: 1,
+    shadowColor: '#171717',
+    shadowOffset: { width: -2, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
   }
 
 });

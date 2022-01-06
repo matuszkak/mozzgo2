@@ -180,7 +180,7 @@ const LoginPage = props => {
                                                                     borderWidth: 2,
                                                                     borderRadius: 14,
                                                                     paddingHorizontal: 20,
-                                                                    color: '#000000',
+                                                                    borderColor: '#009688',
     },
                                                                     formContainer: {
                                                                         paddingHorizontal: 40,
@@ -198,6 +198,7 @@ const LoginPage = props => {
                                                                     borderWidth: 1,
                                                                     borderBottomLeftRadius: 15,
                                                                     borderTopLeftRadius: 15,
+                                                                    borderColor: '#009688'
     },
                                                                     toggleButtonRight: {
                                                                         marginTop: 20,
@@ -206,13 +207,14 @@ const LoginPage = props => {
                                                                     borderWidth: 1,
                                                                     borderBottomRightRadius: 15,
                                                                     borderTopRightRadius: 15,
+                                                                    borderColor: '#009688'
     },
                                                                     toggleButtonText: {
                                                                         fontSize: 17,
                                                                     color: 'black',
     },
                                                                     active: {
-                                                                        backgroundColor: '#0851c7',
+                                                                        backgroundColor: '#009688',
     },
                                                                     activeText: {
                                                                         color: '#ffffff',

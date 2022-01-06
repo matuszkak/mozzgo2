@@ -1,9 +1,11 @@
 import React, { useEffect } from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
 import { useFonts } from '@use-expo/font';
+import AppLoading from 'expo-app-loading';
+import { Chart } from './Chart';
 
 
-export default function Motivate(props) {
+const Motivate = props => {
 
   let [fontsLoaded] = useFonts({
     'AvenirNextHeavyItalic': require('../assets/fonts/AvenirNextHeavyItalic.ttf'),
@@ -12,15 +14,21 @@ export default function Motivate(props) {
     'AvenirNextHeavyCondensed': require('../assets/fonts/AvenirNextHeavyCondensed.ttf'),
   });
 
-  return (
-    <View style={styles.container} >
-      <Text style={[styles.logoFont, { fontFamily: 'AvenirNextHeavyItalic' }]}>MozzGo</Text>
-      <Text style={[styles.subFont, { fontFamily: 'AvenirNextULtltalic' }]}>Move your ass - let's go!</Text>
-    </View>
-  );
-  // }
-
+  if (!fontsLoaded) {
+    return <AppLoading />;
+  } else {
+    setTimeout(() => {
+      props.navigation.navigate('Chart')
+    }, 3000);
+    return (
+      <View style={styles.container} >
+        <Text style={[styles.logoFont, { fontFamily: 'AvenirNextHeavyItalic' }]}>MozzGo</Text>
+        <Text style={[styles.subFont, { fontFamily: 'AvenirNextHeavyCondensed' }]}>Move your ass - let's go!</Text>
+      </View>
+    );
+  }
 }
+
 
 const styles = StyleSheet.create({
   container: {
@@ -31,7 +39,7 @@ const styles = StyleSheet.create({
   },
   logoFont: {
     fontSize: 80,
-    color: 'green',
+    color: '#009688',
     width: '100%',
     textAlign: 'center',
   },
@@ -40,7 +48,8 @@ const styles = StyleSheet.create({
     fontSize: 20,
     width: '100%',
     textAlign: 'center',
-    color: 'green'
+    color: '#009688',
   }
 });
 
+export default Motivate;

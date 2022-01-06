@@ -32,7 +32,7 @@ export default function Home(props) {
 
     useEffect(() => {
         (async () => {
-            // generateImage();
+
             console.log("Database synced. Weekly steps Home: " + weeklySteps);
             DbSync(props.userData, weeklySteps);
         })();

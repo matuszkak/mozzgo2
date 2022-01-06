@@ -62,7 +62,7 @@ async function DbSync(user, weeklySteps) {
 
   if (s.length < 1) {
     for (let j = 1; j < 7; j++) {
-      saveStepsOnFirebase(use.emailr, checksport, week[j], weeklySteps[j]);
+      saveStepsOnFirebase(user.email, checksport, week[j], weeklySteps[j]);
       console.log("Database updated!");
     }
   } else {

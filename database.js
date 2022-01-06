@@ -72,7 +72,7 @@ export async function saveStepsOnFirebase(email, sport, day, steps) {
 
 export async function getHistory(email) {
   // https://firebase.google.com/docs/firestore/query-data/get-data#get_multiple_documents_from_a_collection
-  const q = query(collection(db, 'users', email, 'history'), orderBy('date', 'desc'), limit(40));
+  const q = query(collection(db, 'users', email, 'history'), orderBy('day', 'desc'));
   const querySnapshot = await getDocs(q);
   const result = [];
   querySnapshot.forEach(doc => {
@@ -87,7 +87,7 @@ export async function getHistory(email) {
 
 export async function getHistoryBySport(email, sport) {
   // https://firebase.google.com/docs/firestore/query-data/get-data#get_multiple_documents_from_a_collection
-  const q = query(collection(db, 'users', email, 'history'), where("sport", "==", sport), orderBy('day', 'desc'), limit(40));
+  const q = query(collection(db, 'users', email, 'history'), where("sport", "==", sport), orderBy('day', 'desc'));
   const querySnapshot = await getDocs(q);
   const result = [];
   querySnapshot.forEach(doc => {
@@ -103,7 +103,7 @@ export async function getHistoryBySport(email, sport) {
 
 export async function getHistoryByDay(email, day) {
   // https://firebase.google.com/docs/firestore/query-data/get-data#get_multiple_documents_from_a_collection
-  const q = query(collection(db, 'users', email, 'history'), where("day", "==", day), orderBy('sport', 'desc'), limit(40));
+  const q = query(collection(db, 'users', email, 'history'), where("day", "==", day), orderBy('sport', 'desc'));
   const querySnapshot = await getDocs(q);
   const result = [];
   querySnapshot.forEach(doc => {
