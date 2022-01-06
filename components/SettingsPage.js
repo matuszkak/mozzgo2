@@ -1,5 +1,6 @@
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native"
 import React from 'react';
+
 import { signOutUser } from '../auth';
 import { removeUserData } from '../localStorage';
 

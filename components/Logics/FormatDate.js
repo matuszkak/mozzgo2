@@ -9,7 +9,6 @@ function formatDate(date) {
     minute = d.getMinutes(),
     second = d.getSeconds();
 
-
   if (month.length < 2)
     month = '0' + month;
   if (day.length < 2)
@@ -92,8 +91,5 @@ function converttoDay(n) {
   }
   return day
 }
-
-
-
 
 export { getMonday, formatDate, get2daybefore, get3daybefore, get4daybefore, get5daybefore, get6daybefore, getyesterday, converttoDay };

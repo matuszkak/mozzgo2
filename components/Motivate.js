@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
 import { useFonts } from '@use-expo/font';
-import { AppLoading } from 'expo';
 
 
 export default function Motivate(props) {
@@ -12,17 +11,6 @@ export default function Motivate(props) {
     'AvenirNextDemiItalic': require('../assets/fonts/AvenirNextDemiItalic.ttf'),
     'AvenirNextHeavyCondensed': require('../assets/fonts/AvenirNextHeavyCondensed.ttf'),
   });
-
-  // useEffect(() => {
-  //   console.log("welcome!")
-  // }, []);
-
-  // if (!fontsLoaded) {
-  //   return <AppLoading />;
-  // } else {
-  //   setTimeout(() => {
-  //     props.navigation.navigate('Your steps')
-  //   }, 3000);
 
   return (
     <View style={styles.container} >

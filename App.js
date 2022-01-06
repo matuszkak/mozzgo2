@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 import InnerPage from './components/InnerPage';
+import DbSync from './components/Logics/DbSync';
 import LoginPage from './components/LoginPage';
 import { toggleStateOnFirebase } from './database';
 import { getUserData } from './localStorage';
@@ -33,10 +34,15 @@ export default function App() {
     // alkalmazás betöltésekor fut le
   }, []);
 
+
   if (userData === null) {
     return <LoginPage setUserData={setUserData} />;
   }
   return (
     <InnerPage setUserData={setUserData} userData={userData} toggleUserState={toggleUserState} />
+
   );
+
+
+
 }

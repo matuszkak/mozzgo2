@@ -1,8 +1,14 @@
+// bug: belépéskori szinkronizációnál 0-t tölt fel (nincs még adat és nem frissít szinkronban)
+
+
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, Switch, TouchableOpacity, Image } from 'react-native';
+
 import { loginStatus } from '../auth';
 import { getUserDataByEmail } from '../database';
 import { storeUserData } from '../localStorage';
+import useStepCounter from './Logics/CounterLogic';
+import DbSync from './Logics/DbSync';
 
 // import assets
 import logo from '../assets/footz.jpg';
@@ -10,7 +16,8 @@ import appname from '../assets/Mozzgogif2.gif';
 
 export default function Home(props) {
 
-    const [link, setLink] = useState('');
+    // const [link, setLink] = useState('');
+    const [weeklySteps, setweeklySteps] = useStepCounter();
 
     useEffect(() => {
         (async () => {
@@ -19,9 +26,16 @@ export default function Home(props) {
             await storeUserData(userData);
             console.log(`${userData.name} received when innerpage loaded`);
             props.setUserData(userData);
-            // generateImage();
         })();
     }, []);
+
+    useEffect(() => {
+        (async () => {
+            // generateImage();
+            console.log("Database synced. Weekly steps Home: " + weeklySteps);
+            DbSync(props.userData, weeklySteps);
+        })();
+    }, [weeklySteps]);
 
     return (
         <View style={styles.container} >

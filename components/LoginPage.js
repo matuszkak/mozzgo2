@@ -10,12 +10,11 @@ import {
     TouchableOpacity,
     TouchableWithoutFeedback,
 } from 'react-native';
-
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { signIn, signUp } from '../auth';
+
+import { signIn, signUp, resetPassword } from '../auth';
 import { createUserOnFirebase, getUserDataByEmail } from '../database';
 import { storeUserData } from '../localStorage';
-import { resetPassword } from '../auth';
 
 const LoginPage = props => {
     const [email, setEmail] = useState('');

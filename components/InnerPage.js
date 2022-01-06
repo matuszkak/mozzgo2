@@ -1,6 +1,7 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as React from 'react';
+
 import Chart from './Chart';
 import SettingsPage from './SettingsPage';
 import Home from './Home';
@@ -8,7 +9,9 @@ import HistoryPage from './HistoryPage';
 import Motivate from './Motivate';
 
 const Stack = createNativeStackNavigator();
+
 function InnerPage(props) {
+
   return (
     <NavigationContainer>
       <Stack.Navigator>

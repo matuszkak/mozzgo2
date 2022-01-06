@@ -12,6 +12,8 @@ const AddToSteps = props => {
   const inputHandler2 = enteredSport => { setEnteredSport(enteredSport) };
   const inputHandler3 = enteredDate => { setEnteredDate(enteredDate) };
 
+
+
   return (
     <Modal visible={props.visible} animationType={'slide'}>
       <View style={styles.inputContainer}>
@@ -96,7 +98,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     flex: 1,
-
   },
   buttonView: {
     elevation: 8,

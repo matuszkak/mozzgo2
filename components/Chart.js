@@ -1,10 +1,4 @@
 import React, { useState, useEffect, setState } from 'react';
-import { StatusBar } from 'expo-status-bar';
-import { StackedBarChart } from 'react-native-chart-kit';
-import AddToSteps from './AddToSteps';
-import useStepCounter from './CounterLogic';
-import { getHistory, getHistoryBySport, getHistoryByDay, saveStepsOnFirebase } from '../database';
-import { formatDate, converttoDay, getMonday, getyesterday, get2daybefore, get3daybefore, get4daybefore, get5daybefore, get6daybefore } from './FormatDate.js';
 import {
   SafeAreaView,
   Image,
@@ -16,8 +10,18 @@ import {
   Button,
   TouchableOpacity,
 } from 'react-native';
+import { StatusBar } from 'expo-status-bar';
+import { StackedBarChart } from 'react-native-chart-kit';
+
+import useStepCounter from './Logics/CounterLogic';
+import ExtraSteps from './Logics/DbExtraSteps';
+import AddToSteps from './AddToSteps';
+import { formatDate, converttoDay, getMonday, getyesterday, get2daybefore, get3daybefore, get4daybefore, get5daybefore, get6daybefore } from './Logics/FormatDate.js';
+
 import logo from '../assets/footz.jpg';
 import appname from '../assets/Mozzgogif2.gif';
+import DbExtraSteps from './Logics/DbExtraSteps';
+
 
 // defining days
 const end = new Date();
@@ -38,14 +42,23 @@ var db4_day = converttoDay(dbefore4.getDay());
 var db5_day = converttoDay(dbefore5.getDay());
 var db6_day = converttoDay(dbefore6.getDay());
 
+
 export default function Chart(props) {
+
+  // console.log(ExtraSteps());
   const currentTime = new Date();
   const [weeklySteps, setweeklySteps] = useStepCounter();
-  const [weeklyStepsWoWalking, setweeklyStepsWoWalking] = useState([]);
-  const [sevendaySteps, setSevendaySteps] = useState(0);
+  // const [weeklyExtraSteps, setweeklyExtraSteps] = DbExtraSteps(props.userData);
+  const [weeklyExtraSteps, setweeklyExtraSteps] = useState([1000, 2000, 300, 0, 1000, 0, 500]);
+
   const [isAddPopupVisible, setisAddPopupVisible] = useState(false);
-  const [sport, setSport] = useState('walking');
+  // const [sport, setSport] = useState('walking');
   const [day, setDay] = useState(currentTime.toLocaleDateString());
+  const [sync, setSync] = useState(false);
+
+
+  console.log("extra steps static: " + weeklyExtraSteps);
+  console.log("extra steps real: " + DbExtraSteps(props.userData));
 
   // apply date format yyyy/mm/dd
   function dateyyyymmdd(date) {
@@ -75,127 +88,17 @@ export default function Chart(props) {
     return total + num;
   }
 
-  useEffect(() => {
+  console.log("weekly steps Chart: " + weeklySteps);
 
-    // SYNC DB IF NO DATA FOR THE LAST (FEW) DAYS - FOR MAX. 7 DAYS
-    var checksport = sport;
-
-    (async () => {
-
-      var s = [];
-      s = await getHistoryBySport(props.userData.email, checksport);
-      // console.log(s);
-      // console.log(s[0]);
-
-      if (s.length < 1) {
-        for (let j = 1; j < 7; j++) {
-          saveStepsOnFirebase(props.userData.email, checksport, week[j], weeklySteps[j]);
-        }
-
-      } else {
-        // console.log(s[0]);
-        // console.log(s[0].day);
-        // console.log(week);
-
-        for (let k = 1; k < 7; k++) {
-          if (week[k] > s[0].day) {
-            // console.log(week[k]);
-            saveStepsOnFirebase(props.userData.email, checksport, week[k], weeklySteps[k]);
-          }
-        }
-      };
-
-      console.log("Database updated!")
-      // console.log(weeklySteps[0]);
-
-    })();
-  }, []);
-
-  useEffect(() => {
-
-    // calculate no. of steps for the last 7 days
-
-    var sds = weeklySteps.reduce(addArrayElements);
-    setSevendaySteps(sds);
-    // console.log(sds);
-
-    // aggregate data in case of a change
-
-    (async () => {
-
-      // AGGREGATE STEPS OTHER THAN WALKING FROM DB FOR LAST 7 DAYS
-
-      var dailyrecords = []; // records for ALL sport for a given day
-      var allrecords = []; // list of records for last 7 days - list of objects
-      var recordswowalking = []; // list of records for ALL sports EXCEPT WALKING for last 7 days - list of objects
-      var allsteps = []; // list of steps for ALL sports for last 7 days - list of num
-      var nonWalkingRecordsForADay = [];
-      var dailyStepsWoWalking = 0;
-
-
-      // console.log(week);
-      // records for last seven days
-      for (let m = 0; m < 7; m++) {
-        dailyrecords = await getHistoryByDay(props.userData.email, week[m]);
-        // console.log(dailyrecords);
-
-        // aggregate steps for different sports for a certain day
-        // and collect all records for last 7 days
-        var a = 0;
-        for (let l = 0; l < dailyrecords.length; l++) {
-          a = a + parseInt(dailyrecords[l].steps);
-          allrecords.push(dailyrecords[l]);
-        }
-        allsteps.push(a);
-
-      };
-      // console.log(allrecords);
-      // console.log(allsteps);
-
-      // exclude walking
-      recordswowalking = allrecords.filter(record => record.sport != 'walking');
-      // console.log(recordswowalking);
-
-      // non-walking steps for last 7 days
-      var zs = [];
-      for (let r = 0; r < 7; r++) {
-        nonWalkingRecordsForADay = recordswowalking.filter(record => record.day == week[r]);
-        dailyStepsWoWalking = 0;
-        for (let q = 0; q < nonWalkingRecordsForADay.length; q++) {
-          dailyStepsWoWalking = dailyStepsWoWalking + nonWalkingRecordsForADay[q].steps;
-        };
-        // console.log(week[r] + " - " + dailyStepsWoWalking);
-        zs.push(dailyStepsWoWalking);
-      };
-
-
-      setweeklyStepsWoWalking(zs);
-
-      console.log("***");
-      console.log(weeklyStepsWoWalking);
-      console.log(weeklySteps);
-
-    })();
-  }, [weeklySteps[1]]);
-
-
-
-
-  var extra = [];
   var weALL = 0;
-  const we = 110;
-  for (let n = 0; n < 7; n++) {
-    extra.push(we * Math.floor(Math.random() * 10));
-  };
-  weALL = extra.reduce(addArrayElements);
-
+  weALL = weeklySteps.reduce(addArrayElements) + weeklyExtraSteps.reduce(addArrayElements);
 
   return (
     <View style={styles.container}>
 
-      <Text style={{ color: '#148F77', fontSize: 18, fontWeight: '300', marginTop: 20 }}>Steps in a week: {sevendaySteps + weALL}</Text>
+      <Text style={{ color: '#148F77', fontSize: 18, fontWeight: '300', marginTop: 20 }}>Steps in a week: {weALL}</Text>
 
-      <Text style={{ color: '#148F77', fontSize: 18, fontWeight: '300', marginTop: 10 }}>Move your ass watch this go up: {weeklySteps[0] + extra[0]}</Text>
+      <Text style={{ color: '#148F77', fontSize: 18, fontWeight: '300', marginTop: 10 }}>Move your ass watch this go up: {weeklySteps[0] + weeklyExtraSteps[0]}</Text>
 
       <Text style={{ color: '#148F77', fontSize: 18, fontWeight: '300', marginTop: 10 }}>{formatDate(new Date())}</Text>
       <Text></Text>
@@ -210,13 +113,13 @@ export default function Chart(props) {
           labels: [db6_day, db5_day, db4_day, db3_day, db2_day, y_day, t_day],
           // legend: ['Walk', 'Other'],
           data: [
-            [weeklySteps[6], extra[6]],
-            [weeklySteps[5], extra[5]],
-            [weeklySteps[4], extra[4]],
-            [weeklySteps[3], extra[3]],
-            [weeklySteps[2], extra[2]],
-            [weeklySteps[1], extra[1]],
-            [weeklySteps[0], extra[0]],
+            [weeklySteps[6], weeklyExtraSteps[6]],
+            [weeklySteps[5], weeklyExtraSteps[5]],
+            [weeklySteps[4], weeklyExtraSteps[4]],
+            [weeklySteps[3], weeklyExtraSteps[3]],
+            [weeklySteps[2], weeklyExtraSteps[2]],
+            [weeklySteps[1], weeklyExtraSteps[1]],
+            [weeklySteps[0], weeklyExtraSteps[0]],
 
           ],
           barColors: ["#148F77", "#ff794d"],
