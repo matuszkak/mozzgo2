@@ -18,7 +18,7 @@ import appname from '../assets/Mozzgogif2.gif';
 export default function Home(props) {
 
 
-    const [weeklySteps, setweeklySteps] = useStepCounter();
+    const [wSteps, setwSteps] = useStepCounter();
 
     useEffect(() => {
         (async () => {
@@ -33,10 +33,10 @@ export default function Home(props) {
     useEffect(() => {
         (async () => {
 
-            console.log("Database synced. Weekly steps Home: " + weeklySteps);
-            DbSync(props.userData, weeklySteps);
+            console.log("Database synced. Weekly steps Home: " + wSteps);
+            DbSync(props.userData, wSteps);
         })();
-    }, [weeklySteps]);
+    }, [wSteps]);
 
     return (
         <View style={styles.container} >

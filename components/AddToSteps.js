@@ -70,7 +70,7 @@ const AddToSteps = props => {
 
         <View style={styles.containerxxx}>
 
-          <Text style={{ color: 'black', fontSize: 19 }}>          How many mins to add?         </Text>
+          <Text style={{ color: 'black', fontSize: 19 }}>           How many mins to  add?         </Text>
           <Text style={{ color: 'black', textAlign: 'center', fontSize: 19 }}>{sliderValue}</Text>
 
           <Slider
@@ -116,9 +116,9 @@ const AddToSteps = props => {
 
 const styles = StyleSheet.create({
   textInput: {
-    borderColor: '#148F77',
+    // borderColor: '#148F77',
     backgroundColor: '#E8F8F5',
-    borderWidth: 1,
+    // borderWidth: 1,
     padding: 10,
     width: '79%',
     borderRadius: 20,
@@ -164,8 +164,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: 'white',
     borderRadius: 32,
-    borderColor: '#148F77',
-    borderWidth: 1,
+    // borderColor: '#148F77',
+    // borderWidth: 1,
     backgroundColor: '#E8F8F5',
     shadowColor: '#171717',
     shadowOffset: { width: -2, height: 4 },
@@ -180,8 +180,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: '#E8F8F5',
     borderRadius: 32,
-    borderColor: '#148F77',
-    borderWidth: 1,
+    // borderColor: '#148F77',
+    // borderWidth: 1,
     shadowColor: '#171717',
     shadowOffset: { width: -2, height: 4 },
     shadowOpacity: 0.2,

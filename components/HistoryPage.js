@@ -54,17 +54,17 @@ export default function HistoryPage(props) {
             {item.steps}
           </Text>
 
-        </View>
 
-        {/* Delete button */}
-        <View style={styles.bin}>
-          <TouchableOpacity >
-            <SvgXml width="30" height="30" xml={trashIcon} onPress={() => twoButtonAlert(item.id)} />
-          </TouchableOpacity>
-        </View>
 
+        </View>
       </View>
 
+      {/* Delete button */}
+      <View style={styles.bin}>
+        <TouchableOpacity >
+          <SvgXml width="30" height="30" xml={trashIcon} onPress={() => twoButtonAlert(item.id)} />
+        </TouchableOpacity>
+      </View>
     </View >
   );
 
@@ -103,11 +103,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   historyTextContainer: {
+    width: 150,
     flexDirection: 'row',
 
   },
   textStep: {
     fontSize: 15,
+    fontFamily: 'AvenirNextDemiItalic',
     color: '#148F77',
   },
   containerStep: {
@@ -123,7 +125,13 @@ const styles = StyleSheet.create({
     shadowRadius: 3,
   },
   bin: {
-    marginLeft: 200,
-    marginTop: 10,
+
+    marginLeft: 140,
+    marginTop: 0,
+    // paddingHorizontal: 40,
+    // paddingVertical: 5,
+    // margin: 5,
+    // borderRadius: 12,
+    alignItems: 'flex-end',
   },
 });

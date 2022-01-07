@@ -14,6 +14,7 @@ import {
   updateDoc,
   serverTimestamp,
   where,
+  getAuth,
 } from 'firebase/firestore';
 
 import config from './db_config';
@@ -49,6 +50,7 @@ export async function getUserDataByEmail(email) {
   console.log('User not found by email');
   return null;
 }
+
 
 // export async function toggleStateOnFirebase(email, newState) {
 //   // https://firebase.google.com/docs/firestore/manage-data/add-data#update-data
