@@ -23,6 +23,22 @@ function formatDate(date) {
   return ([year, month, day].join('-') + ' ' + [hour, minute, second].join(':'));
 }
 
+function formatDate2(date) {
+  var d = new Date(date),
+    month = '' + (d.getMonth() + 1),
+    day = '' + d.getDate(),
+    year = d.getFullYear();
+
+
+  if (month.length < 2)
+    month = '0' + month;
+  if (day.length < 2)
+    day = '0' + day;
+
+  return ([year, month, day].join('/'));
+}
+
+
 function getMonday(d) {
   d = new Date(d);
   var day = d.getDay(),
@@ -92,4 +108,4 @@ function converttoDay(n) {
   return day
 }
 
-export { getMonday, formatDate, get2daybefore, get3daybefore, get4daybefore, get5daybefore, get6daybefore, getyesterday, converttoDay };
+export { getMonday, formatDate, formatDate2, get2daybefore, get3daybefore, get4daybefore, get5daybefore, get6daybefore, getyesterday, converttoDay };

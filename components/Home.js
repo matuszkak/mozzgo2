@@ -55,7 +55,10 @@ export default function Home(props) {
                 setLoading(false);
                 console.log("Sync not succesful" + props.weeklySteps);
             };
-
+            if (loading) {
+                console.log("Database synced. Weekly steps Home: " + props.weeklyExtraSteps);
+                DbSync(props.userData, props.weeklySteps);
+            }
         })();
     }, [props.weeklySteps[0]]);
 
@@ -66,10 +69,7 @@ export default function Home(props) {
         // console.log("Weekly steps Home: " + props.weeklySteps);
         // console.log(loading);
 
-        if (loading) {
-            console.log("Database synced. Weekly steps Home: " + props.weeklyExtraSteps);
-            DbSync(props.userData, props.weeklySteps);
-        }
+
         return (
             <View style={styles.container} >
                 <View style={styles.logoutSection}>
