@@ -94,7 +94,7 @@ export default function DbExtraSteps(user) {
         dailyStepsWoWalking = dailyStepsWoWalking + nonWalkingRecordsForADay[q].steps;
       };
       // console.log(week[r] + " - " + dailyStepsWoWalking);
-      zs.push((dailyStepsWoWalking));
+      zs.push((parseInt(dailyStepsWoWalking)));
       // console.log("*** zs: " + zs[r] + " ***");
     };
   })();

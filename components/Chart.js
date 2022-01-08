@@ -13,7 +13,7 @@ import {
 import { StatusBar } from 'expo-status-bar';
 import { StackedBarChart } from 'react-native-chart-kit';
 
-import useStepCounter from './Logics/CounterLogic';
+// import useStepCounter from './Logics/CounterLogic';
 import ExtraSteps from './Logics/DbExtraSteps';
 import AddToSteps from './AddToSteps';
 import { formatDate, converttoDay, getMonday, getyesterday, get2daybefore, get3daybefore, get4daybefore, get5daybefore, get6daybefore } from './Logics/FormatDate.js';
@@ -47,18 +47,25 @@ export default function Chart(props) {
 
   // console.log(ExtraSteps());
   const currentTime = new Date();
-  const [weeklySteps, setweeklySteps] = useStepCounter();
-  // const [weeklyExtraSteps, setweeklyExtraSteps] = DbExtraSteps(props.userData);
-  const [weeklyExtraSteps, setweeklyExtraSteps] = useState([1000, 2000, 300, 0, 1000, 0, 500]);
+  // const [weeklySteps, setweeklySteps] = useStepCounter();
+  // const [weeklyExtraSteps, setweeklyExtraSteps] = useState([]);
+  // const [weeklyExtraSteps, setweeklyExtraSteps] = useState([1000, 2000, 300, 0, 1000, 0, 500]);
 
   const [isAddPopupVisible, setisAddPopupVisible] = useState(false);
   // const [sport, setSport] = useState('walking');
   const [day, setDay] = useState(currentTime.toLocaleDateString());
-  const [sync, setSync] = useState(false);
+  // const [sync, setSync] = useState(false);
+
+  // useEffect(() => {
+  //   (async () => {
+  //     setweeklyExtraSteps(DbExtraSteps(props.userData));
+  //     console.log("weekly extraSteps Chart: " + props.weeklySteps);
+  //   })();
+  // }, [props.weeklySteps[0]]);
 
 
-  console.log("extra steps static: " + weeklyExtraSteps);
-  console.log("extra steps real: " + DbExtraSteps(props.userData));
+  console.log("extra steps Chart: " + props.weeklyExtraSteps[0]);
+  // console.log("extra steps real: " + DbExtraSteps(props.userData));
 
   // apply date format yyyy/mm/dd
   function dateyyyymmdd(date) {
@@ -88,17 +95,21 @@ export default function Chart(props) {
     return total + num;
   }
 
-  console.log("weekly steps Chart: " + weeklySteps);
+  console.log("weekly steps Chart: " + props.weeklySteps);
 
   var weALL = 0;
-  weALL = weeklySteps.reduce(addArrayElements) + weeklyExtraSteps.reduce(addArrayElements);
+  for (i = 0; i < 7; i++) {
+    weALL = weALL + props.weeklySteps[i] + props.weeklyExtraSteps[0][i];
+  }
+
+
 
   return (
     <View style={styles.container}>
 
       <Text style={{ color: '#148F77', fontSize: 18, fontWeight: '300', marginTop: 20 }}>Steps in a week: {weALL}</Text>
 
-      <Text style={{ color: '#148F77', fontSize: 18, fontWeight: '300', marginTop: 10 }}>Move your ass watch this go up: {weeklySteps[0] + weeklyExtraSteps[0]}</Text>
+      <Text style={{ color: '#148F77', fontSize: 18, fontWeight: '300', marginTop: 10 }}>Move your ass watch this go up: {props.weeklySteps[0] + props.weeklyExtraSteps[0][0]}</Text>
 
       <Text style={{ color: '#148F77', fontSize: 18, fontWeight: '300', marginTop: 10 }}>{formatDate(new Date())}</Text>
       <Text></Text>
@@ -106,21 +117,18 @@ export default function Chart(props) {
       <Image source={logo} style={{ width: 100, height: 100, marginBottom: -10 }} />
       <Image source={appname} style={{ width: 150, height: 100, marginBottom: -20 }} />
 
-
-
       <StackedBarChart
         data={{
           labels: [db6_day, db5_day, db4_day, db3_day, db2_day, y_day, t_day],
           // legend: ['Walk', 'Other'],
           data: [
-            [weeklySteps[6], weeklyExtraSteps[6]],
-            [weeklySteps[5], weeklyExtraSteps[5]],
-            [weeklySteps[4], weeklyExtraSteps[4]],
-            [weeklySteps[3], weeklyExtraSteps[3]],
-            [weeklySteps[2], weeklyExtraSteps[2]],
-            [weeklySteps[1], weeklyExtraSteps[1]],
-            [weeklySteps[0], weeklyExtraSteps[0]],
-
+            [props.weeklySteps[6], props.weeklyExtraSteps[0][6]],
+            [props.weeklySteps[5], props.weeklyExtraSteps[0][5]],
+            [props.weeklySteps[4], props.weeklyExtraSteps[0][4]],
+            [props.weeklySteps[3], props.weeklyExtraSteps[0][3]],
+            [props.weeklySteps[2], props.weeklyExtraSteps[0][2]],
+            [props.weeklySteps[1], props.weeklyExtraSteps[0][1]],
+            [props.weeklySteps[0], props.weeklyExtraSteps[0][0]],
           ],
           barColors: ["#148F77", "#ff794d"],
         }}

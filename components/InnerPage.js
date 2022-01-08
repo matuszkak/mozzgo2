@@ -2,26 +2,28 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as React from 'react';
 
-import Chart from './Chart';
-import SettingsPage from './SettingsPage';
-import Home from './Home';
-import HistoryPage from './HistoryPage';
 import Motivate from './Motivate';
+import Home from './Home';
+import Chart from './Chart';
+import HistoryPage from './HistoryPage';
+import SettingsPage from './SettingsPage';
 
 const Stack = createNativeStackNavigator();
 
 function InnerPage(props) {
 
+
   return (
     <NavigationContainer>
       <Stack.Navigator>
+
         <Stack.Screen name="Home">
           {navigatorProps => (
             <Home
               {...navigatorProps}
               setUserData={props.setUserData}
               userData={props.userData}
-              toggleUserState={props.toggleUserState}
+              weeklySteps={props.weeklySteps}
             />
           )}
         </Stack.Screen>
@@ -29,6 +31,7 @@ function InnerPage(props) {
           {navigatorProps => (
             <Motivate
               {...navigatorProps}
+              setUserData={props.setUserData}
               userData={props.userData}
             />
           )}
@@ -38,7 +41,9 @@ function InnerPage(props) {
             <Chart
               {...navigatorProps}
               userData={props.userData}
-              toggleUserState={props.toggleUserState}
+              weeklySteps={props.weeklySteps}
+              setWeeklyExtraSteps={props.setWeeklyExtraSteps}
+              weeklyExtraSteps={props.weeklyExtraSteps}
             />
           )}
         </Stack.Screen>
@@ -47,7 +52,6 @@ function InnerPage(props) {
             <HistoryPage
               {...navigatorProps}
               userData={props.userData}
-              toggleUserState={props.toggleUserState}
             />
           )}
         </Stack.Screen>
@@ -57,7 +61,6 @@ function InnerPage(props) {
               {...navigatorProps}
               setUserData={props.setUserData}
               userData={props.userData}
-              toggleUserState={props.toggleUserState}
             />
           )}
         </Stack.Screen>

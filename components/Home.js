@@ -3,6 +3,8 @@
 
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, Switch, TouchableOpacity, Image } from 'react-native';
+import { useFonts } from '@use-expo/font';
+import AppLoading from 'expo-app-loading';
 
 import { loginStatus } from '../auth';
 import { getUserDataByEmail } from '../database';
@@ -17,8 +19,15 @@ import appname from '../assets/Mozzgogif2.gif';
 
 export default function Home(props) {
 
+    // const [wSteps, setwSteps] = useStepCounter();
+    const [loading, setLoading] = useState(true);
 
-    const [wSteps, setwSteps] = useStepCounter();
+    let [fontsLoaded] = useFonts({
+        'AvenirNextHeavyItalic': require('../assets/fonts/AvenirNextHeavyItalic.ttf'),
+        'AvenirNextULtltalic': require('../assets/fonts/AvenirNextULtltalic.ttf'),
+        'AvenirNextDemiItalic': require('../assets/fonts/AvenirNextDemiItalic.ttf'),
+        'AvenirNextHeavyCondensed': require('../assets/fonts/AvenirNextHeavyCondensed.ttf'),
+    });
 
     useEffect(() => {
         (async () => {
@@ -32,49 +41,73 @@ export default function Home(props) {
 
     useEffect(() => {
         (async () => {
+            var qq = 0;
+            for (let zs = 0; zs < 7; zs++) {
+                if (props.weeklySteps[zs] != 0) {
+                    console.log(props.weeklySteps[zs]);
+                    qq + qq + 1;
+                };
+            };
+            if (qq = 7) {
+                setLoading(true);
 
-            console.log("Database synced. Weekly steps Home: " + wSteps);
-            DbSync(props.userData, wSteps);
+            } else {
+                setLoading(false);
+                console.log("Sync not succesful" + props.weeklySteps);
+            };
+
         })();
-    }, [wSteps]);
+    }, [props.weeklySteps[0]]);
 
-    return (
-        <View style={styles.container} >
-            <View style={styles.logoutSection}>
-                <TouchableOpacity style={styles.logoutButton} onPress={() => props.navigation.navigate('Settings')
-                }>
-                    <Text style={styles.logoutButtonText}> Settings </Text>
-                </TouchableOpacity>
-            </View>
 
-            < Text style={{ color: '#148F77', fontSize: 28, fontWeight: '300', marginTop: 40, marginBottom: 20 }} > Szia {props.userData.name} !</Text>
+    if (!fontsLoaded) {
+        return <AppLoading />;
+    } else {
+        // console.log("Weekly steps Home: " + props.weeklySteps);
+        // console.log(loading);
 
-            <Image source={logo} style={{ width: 100, height: 100, marginBottom: -10 }} />
-            <Image source={appname} style={{ width: 150, height: 100, marginBottom: -20 }} />
-
-            <View style={styles.inputContainer}>
-                <View style={styles.buttonContainer}>
-                    <TouchableOpacity
-                        onPress={() => props.navigation.navigate('Motivate')}
-                        style={styles.buttonView} >
-                        <Text style={styles.buttonText}> Motivate </Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity
-                        onPress={() => props.navigation.navigate('Chart')}
-                        style={styles.buttonView} >
-                        <Text style={styles.buttonText}>   Chart   </Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity
-                        onPress={() => props.navigation.navigate('Step history')}
-                        style={styles.buttonView} >
-                        <Text style={styles.buttonText}> History </Text>
+        if (loading) {
+            console.log("Database synced. Weekly steps Home: " + props.weeklyExtraSteps);
+            DbSync(props.userData, props.weeklySteps);
+        }
+        return (
+            <View style={styles.container} >
+                <View style={styles.logoutSection}>
+                    <TouchableOpacity style={styles.logoutButton} onPress={() => props.navigation.navigate('Settings')
+                    }>
+                        <Text style={styles.logoutButtonText}> Settings </Text>
                     </TouchableOpacity>
                 </View>
+
+                < Text style={{ color: '#148F77', fontSize: 28, fontWeight: '300', marginTop: 40, marginBottom: 20 }} > Szia {props.userData.name} !</Text>
+
+                <Image source={logo} style={{ width: 100, height: 100, marginBottom: -10 }} />
+                <Image source={appname} style={{ width: 150, height: 100, marginBottom: -20 }} />
+
+                <View style={styles.inputContainer}>
+                    <View style={styles.buttonContainer}>
+                        <TouchableOpacity
+                            onPress={() => props.navigation.navigate('Motivate')}
+                            style={styles.buttonView} >
+                            <Text style={styles.buttonText}> Motivate </Text>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity
+                            onPress={() => props.navigation.navigate('Chart')}
+                            style={styles.buttonView} >
+                            <Text style={styles.buttonText}>   Chart   </Text>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity
+                            onPress={() => props.navigation.navigate('Step history')}
+                            style={styles.buttonView} >
+                            <Text style={styles.buttonText}> History </Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
             </View>
-        </View>
-    );
+        );
+    }
 }
 
 const styles = StyleSheet.create({
