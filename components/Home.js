@@ -79,7 +79,7 @@ export default function Home(props) {
                     </TouchableOpacity>
                 </View>
 
-                < Text style={{ color: '#148F77', fontSize: 28, fontWeight: '300', marginTop: 40, marginBottom: 20 }} > Szia {props.userData.name} !</Text>
+                < Text style={{ color: '#148F77', fontSize: 28, fontFamily: 'AvenirNextDemiItalic', fontstyle: 'bold', fontWeight: '200', marginTop: 40, marginBottom: 120 }} > Szia {props.userData.name}!</Text>
 
                 <Image source={logo} style={{ width: 100, height: 100, marginBottom: -10 }} />
                 <Image source={appname} style={{ width: 150, height: 100, marginBottom: -20 }} />
@@ -89,7 +89,7 @@ export default function Home(props) {
                         <TouchableOpacity
                             onPress={() => props.navigation.navigate('Motivate')}
                             style={styles.buttonView} >
-                            <Text style={styles.buttonText}> Motivate </Text>
+                            <Text style={styles.buttonText}>Motivation</Text>
                         </TouchableOpacity>
 
                         <TouchableOpacity

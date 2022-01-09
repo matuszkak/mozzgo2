@@ -107,12 +107,11 @@ export default function Chart(props) {
   return (
     <View style={styles.container}>
 
-      <Text style={{ color: '#148F77', fontSize: 18, fontWeight: '300', marginTop: 20 }}>Steps in a week: {weALL}</Text>
+      <Text style={{ color: '#148F77', fontSize: 18, fontFamily: 'AvenirNextDemiItalic', fontWeight: '300', marginTop: 20 }}>Steps in a week: {weALL}</Text>
 
-      <Text style={{ color: '#148F77', fontSize: 18, fontWeight: '300', marginTop: 10 }}>Move your ass watch this go up: {props.weeklySteps[0] + props.weeklyExtraSteps[0][0]}</Text>
+      <Text style={{ color: '#148F77', fontSize: 18, fontFamily: 'AvenirNextDemiItalic', fontWeight: '300', marginTop: 10, marginBottom: 20 }}>Move your ass watch this go up: {props.weeklySteps[0] + props.weeklyExtraSteps[0][0]}</Text>
 
-      <Text style={{ color: '#148F77', fontSize: 18, fontWeight: '300', marginTop: 10 }}>{formatDate(new Date())}</Text>
-      <Text></Text>
+
 
       <Image source={logo} style={{ width: 100, height: 100, marginBottom: -10 }} />
       <Image source={appname} style={{ width: 150, height: 100, marginBottom: -20 }} />
@@ -134,7 +133,7 @@ export default function Chart(props) {
         }}
 
         width={Dimensions.get("window").width - 50}
-        height={500}
+        height={400}
         fromZero={true}
         showValuesOnTopOfBars={false}
         // withCustomBarColorFromData={false}
@@ -171,6 +170,8 @@ export default function Chart(props) {
 
         }}
       />
+      <Text style={{ color: '#148F77', fontSize: 14, fontFamily: 'AvenirNextULtltalic', fontWeight: '300', marginTop: 90 }}> Updated at {formatDate(new Date())}</Text>
+      <Text></Text>
       <View style={styles.inputContainer}>
         <View style={styles.buttonContainer}>
           <TouchableOpacity
@@ -206,7 +207,7 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     // flexDirection: 'row',
-    marginTop: -30,
+    marginTop: -50,
     width: '100%',
     justifyContent: 'center',
   },
