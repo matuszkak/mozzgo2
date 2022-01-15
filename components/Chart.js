@@ -12,16 +12,15 @@ import {
 } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { StackedBarChart } from 'react-native-chart-kit';
+import AppLoading from 'expo-app-loading';
 
-// import useStepCounter from './Logics/CounterLogic';
-import ExtraSteps from './Logics/DbExtraSteps';
 import AddToSteps from './AddToSteps';
 import { formatDate, converttoDay, getMonday, getyesterday, get2daybefore, get3daybefore, get4daybefore, get5daybefore, get6daybefore } from './Logics/FormatDate.js';
 
 import logo from '../assets/footz.jpg';
 import appname from '../assets/Mozzgogif2.gif';
 import DbExtraSteps from './Logics/DbExtraSteps';
-
+import DbSync from './Logics/DbSync';
 
 // defining days
 const end = new Date();
@@ -45,27 +44,11 @@ var db6_day = converttoDay(dbefore6.getDay());
 
 export default function Chart(props) {
 
-  // console.log(ExtraSteps());
-  const currentTime = new Date();
-  // const [weeklySteps, setweeklySteps] = useStepCounter();
-  // const [weeklyExtraSteps, setweeklyExtraSteps] = useState([]);
-  // const [weeklyExtraSteps, setweeklyExtraSteps] = useState([1000, 2000, 300, 0, 1000, 0, 500]);
-
+  const [weeklyExtraSteps, setWeeklyExtraSteps] = useState([0, 0, 0, 0, 0, 0, 0]);
+  const [weALL, setWeALL] = useState();
   const [isAddPopupVisible, setisAddPopupVisible] = useState(false);
-  // const [sport, setSport] = useState('walking');
-  const [day, setDay] = useState(currentTime.toLocaleDateString());
-  // const [sync, setSync] = useState(false);
-
-  // useEffect(() => {
-  //   (async () => {
-  //     setweeklyExtraSteps(DbExtraSteps(props.userData));
-  //     console.log("weekly extraSteps Chart: " + props.weeklySteps);
-  //   })();
-  // }, [props.weeklySteps[0]]);
-
-
-  console.log("extra steps Chart: " + props.weeklyExtraSteps[0]);
-  // console.log("extra steps real: " + DbExtraSteps(props.userData));
+  const [day, setDay] = useState(new Date().toLocaleDateString());
+  const [sync, setSync] = useState(false);
 
   // apply date format yyyy/mm/dd
   function dateyyyymmdd(date) {
@@ -91,109 +74,127 @@ export default function Chart(props) {
   week[6] = dateyyyymmdd(dbefore6);
   // console.log(week);
 
-  function addArrayElements(total, num) {
-    return total + num;
+  // add values in an array
+  function addArrayElements(array) {
+    var sum = 0;
+    for (let j = 0; j < array.length; j++) {
+      sum = sum + array[j];
+    }
+    return sum;
   }
 
-  console.log("weekly steps Chart: " + props.weeklySteps);
-
-  var weALL = 0;
-  for (i = 0; i < 7; i++) {
-    weALL = weALL + props.weeklySteps[i] + props.weeklyExtraSteps[0][i];
+  // download extra steps from DB
+  async function downloadExtraSteps() {
+    let tt = await DbExtraSteps(props.userData);
+    setWeeklyExtraSteps(tt[0]);
+    return weeklyExtraSteps;
+    ;
   }
 
+  // call overall steps for last a week (normal + extra)
+  function calcStepsAll() {
+    setWeALL(addArrayElements(props.weeklySteps) + addArrayElements(weeklyExtraSteps));
+    return
+  }
+
+  useEffect(() => {
+    downloadExtraSteps().then(calcStepsAll).then(setSync(true)).then(console.log(weeklyExtraSteps)).then(console.log(sync));
+  }, [weeklyExtraSteps]);
 
 
-  return (
-    <View style={styles.container}>
 
-      <Text style={{ color: '#148F77', fontSize: 18, fontFamily: 'AvenirNextDemiItalic', fontWeight: '300', marginTop: 20 }}>Steps in a week: {weALL}</Text>
+  if (!sync) {
+    return <AppLoading />;
+  } else {
+    DbSync(props.userData, props.weeklySteps);
+    return (
+      <View style={styles.container}>
 
-      <Text style={{ color: '#148F77', fontSize: 18, fontFamily: 'AvenirNextDemiItalic', fontWeight: '300', marginTop: 10, marginBottom: 20 }}>Move your ass watch this go up: {props.weeklySteps[0] + props.weeklyExtraSteps[0][0]}</Text>
+        <Text style={{ color: '#148F77', fontSize: 18, fontFamily: 'AvenirNextDemiItalic', fontWeight: '300', marginTop: 20 }}>Steps in a week: {weALL}</Text>
 
+        <Text style={{ color: '#148F77', fontSize: 18, fontFamily: 'AvenirNextDemiItalic', fontWeight: '300', marginTop: 10, marginBottom: 20 }}>Move your ass watch this go up: {props.weeklySteps[0] + 0}</Text>
 
+        <Image source={logo} style={{ width: 100, height: 100, marginBottom: -10 }} />
+        <Image source={appname} style={{ width: 150, height: 100, marginBottom: -20 }} />
 
-      <Image source={logo} style={{ width: 100, height: 100, marginBottom: -10 }} />
-      <Image source={appname} style={{ width: 150, height: 100, marginBottom: -20 }} />
+        <StackedBarChart
+          data={{
+            labels: [db6_day, db5_day, db4_day, db3_day, db2_day, y_day, t_day],
+            // legend: ['Walk', 'Other'],
+            data: [
+              [props.weeklySteps[6], weeklyExtraSteps[6]],
+              [props.weeklySteps[5], weeklyExtraSteps[5]],
+              [props.weeklySteps[4], weeklyExtraSteps[4]],
+              [props.weeklySteps[3], weeklyExtraSteps[3]],
+              [props.weeklySteps[2], weeklyExtraSteps[2]],
+              [props.weeklySteps[1], weeklyExtraSteps[1]],
+              [props.weeklySteps[0], weeklyExtraSteps[0]],
+            ],
+            barColors: ["#148F77", "#ff794d"],
+          }}
 
-      <StackedBarChart
-        data={{
-          labels: [db6_day, db5_day, db4_day, db3_day, db2_day, y_day, t_day],
-          // legend: ['Walk', 'Other'],
-          data: [
-            [props.weeklySteps[6], props.weeklyExtraSteps[0][6]],
-            [props.weeklySteps[5], props.weeklyExtraSteps[0][5]],
-            [props.weeklySteps[4], props.weeklyExtraSteps[0][4]],
-            [props.weeklySteps[3], props.weeklyExtraSteps[0][3]],
-            [props.weeklySteps[2], props.weeklyExtraSteps[0][2]],
-            [props.weeklySteps[1], props.weeklyExtraSteps[0][1]],
-            [props.weeklySteps[0], props.weeklyExtraSteps[0][0]],
-          ],
-          barColors: ["#148F77", "#ff794d"],
-        }}
+          width={Dimensions.get("window").width - 50}
+          height={400}
+          fromZero={true}
+          showValuesOnTopOfBars={false}
+          // withCustomBarColorFromData={false}
+          // flatColor={true}
+          // showBarTops={true}
+          decimalPlaces={0}
+          marginHorizontal={50}
+          // barRadius={10}
+          // verticalLabelRotation={0}
 
-        width={Dimensions.get("window").width - 50}
-        height={400}
-        fromZero={true}
-        showValuesOnTopOfBars={false}
-        // withCustomBarColorFromData={false}
-        // flatColor={true}
-        // showBarTops={true}
-        decimalPlaces={0}
-        marginHorizontal={50}
-        // barRadius={10}
-        // verticalLabelRotation={0}
+          chartConfig={{
+            // strokeWidth: 1,
+            barPercentage: .7,
+            // marginHorizontal: 70,
+            // barRadius: 50,
+            backgroundColor: '#E8F8F5',
+            backgroundGradientFrom: '#E8F8F5',
+            backgroundGradientTo: '#E8F8F5',
+            labelColor: () => "black",
 
-        chartConfig={{
-          // strokeWidth: 1,
-          barPercentage: .7,
-          // marginHorizontal: 70,
-          // barRadius: 50,
-          backgroundColor: '#E8F8F5',
-          backgroundGradientFrom: '#E8F8F5',
-          backgroundGradientTo: '#E8F8F5',
-          labelColor: () => "black",
+            color: (opacity = 1) => `rgba(255, 0, 0, ${opacity})`,
+          }}
 
-          color: (opacity = 1) => `rgba(255, 0, 0, ${opacity})`,
-        }}
+          style={{
+            marginTop: 20,
+            marginLeft: 0,
+            marginHorizontal: 0,
+            borderRadius: 20,
+            marginBottom: -70,
+            shadowColor: '#171717',
+            shadowOffset: { width: -2, height: 4 },
+            shadowOpacity: 0.2,
+            shadowRadius: 3,
 
-        style={{
-          marginTop: 20,
-          marginLeft: 0,
-          marginHorizontal: 0,
-          borderRadius: 20,
-          marginBottom: -70,
-          shadowColor: '#171717',
-          shadowOffset: { width: -2, height: 4 },
-          shadowOpacity: 0.2,
-          shadowRadius: 3,
-
-        }}
-      />
-      <Text style={{ color: '#148F77', fontSize: 14, fontFamily: 'AvenirNextULtltalic', fontWeight: '300', marginTop: 90 }}> Updated at {formatDate(new Date())}</Text>
-      <Text></Text>
-      <View style={styles.inputContainer}>
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity
-            style={styles.buttonView}
-            onPress={() => {
-              setisAddPopupVisible(true);
-            }}>
-            <Text style={styles.buttonText}> Add steps </Text>
-          </TouchableOpacity>
+          }}
+        />
+        <Text style={{ color: '#148F77', fontSize: 14, fontFamily: 'AvenirNextULtltalic', fontWeight: '300', marginTop: 90 }}> Updated at {formatDate(new Date())}</Text>
+        <Text></Text>
+        <View style={styles.inputContainer}>
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity
+              style={styles.buttonView}
+              onPress={() => {
+                setisAddPopupVisible(true);
+              }}>
+              <Text style={styles.buttonText}> Add steps </Text>
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
 
-
-      <AddToSteps
-        userData={props.userData}
-        visible={isAddPopupVisible}
-        onCancel={() => {
-          setisAddPopupVisible(false);
-        }}
-      />
-    </View >
-  );
+        <AddToSteps
+          userData={props.userData}
+          visible={isAddPopupVisible}
+          onCancel={() => {
+            setisAddPopupVisible(false);
+          }}
+        />
+      </View >
+    );
+  };
 }
 
 
@@ -234,5 +235,4 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     textTransform: 'uppercase',
   },
-
 });

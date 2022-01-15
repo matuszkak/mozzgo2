@@ -1,6 +1,5 @@
 // bug: belépéskori szinkronizációnál 0-t tölt fel (nincs még adat és nem frissít szinkronban)
 
-
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, Switch, TouchableOpacity, Image } from 'react-native';
 import { useFonts } from '@use-expo/font';
@@ -9,18 +8,12 @@ import AppLoading from 'expo-app-loading';
 import { loginStatus } from '../auth';
 import { getUserDataByEmail } from '../database';
 import { storeUserData } from '../localStorage';
-import useStepCounter from './Logics/CounterLogic';
-import DbSync from './Logics/DbSync';
+// import useStepCounter from './Logics/CounterLogic';
 
-// import assets
 import logo from '../assets/footz.jpg';
 import appname from '../assets/Mozzgogif2.gif';
 
-
 export default function Home(props) {
-
-    // const [wSteps, setwSteps] = useStepCounter();
-    const [loading, setLoading] = useState(true);
 
     let [fontsLoaded] = useFonts({
         'AvenirNextHeavyItalic': require('../assets/fonts/AvenirNextHeavyItalic.ttf'),
@@ -34,41 +27,15 @@ export default function Home(props) {
             const firebaseUser = await loginStatus();
             const userData = await getUserDataByEmail(firebaseUser.email);
             await storeUserData(userData);
-            console.log(`${userData.name} received when innerpage loaded`);
+            console.log(`${userData.name} received when innerpage loaded ${props.weeklySteps}`);
             props.setUserData(userData);
+
         })();
     }, []);
-
-    useEffect(() => {
-        (async () => {
-            var qq = 0;
-            for (let zs = 0; zs < 7; zs++) {
-                if (props.weeklySteps[zs] != 0) {
-                    console.log(props.weeklySteps[zs]);
-                    qq + qq + 1;
-                };
-            };
-            if (qq = 7) {
-                setLoading(true);
-
-            } else {
-                setLoading(false);
-                console.log("Sync not succesful" + props.weeklySteps);
-            };
-            if (loading) {
-                console.log("Database synced. Weekly steps Home: " + props.weeklyExtraSteps);
-                DbSync(props.userData, props.weeklySteps);
-            }
-        })();
-    }, [props.weeklySteps[0]]);
-
 
     if (!fontsLoaded) {
         return <AppLoading />;
     } else {
-        // console.log("Weekly steps Home: " + props.weeklySteps);
-        // console.log(loading);
-
 
         return (
             <View style={styles.container} >
@@ -79,11 +46,14 @@ export default function Home(props) {
                     </TouchableOpacity>
                 </View>
 
-                < Text style={{ color: '#148F77', fontSize: 28, fontFamily: 'AvenirNextDemiItalic', fontstyle: 'bold', fontWeight: '200', marginTop: 40, marginBottom: 120 }} > Szia {props.userData.name}!</Text>
+                < Text style={{ color: '#148F77', fontSize: 28, fontFamily: 'AvenirNextDemiItalic', fontWeight: '200', marginTop: 40, marginBottom: 120 }} > Szia {props.userData.name}!</Text>
 
                 <Image source={logo} style={{ width: 100, height: 100, marginBottom: -10 }} />
                 <Image source={appname} style={{ width: 150, height: 100, marginBottom: -20 }} />
 
+                <Text style={{ color: '#148F77', fontSize: 18, fontFamily: 'AvenirNextDemiItalic', fontWeight: '300', marginTop: 10, marginBottom: 20 }}>Move your ass watch this go up: {props.weeklySteps[0] + 0}</Text>
+
+                {/* Home menu */}
                 <View style={styles.inputContainer}>
                     <View style={styles.buttonContainer}>
                         <TouchableOpacity

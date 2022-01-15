@@ -42,45 +42,24 @@ week[5] = dateyyyymmdd(dbefore5);
 week[6] = dateyyyymmdd(dbefore6);
 // console.log(week);
 
-
+// SYNC DB (save daily walking steps) IF NO DATA FOR THE LAST (FEW) DAYS - FOR MAX. 7 DAYS
 async function DbSync(user, weeklySteps) {
 
-  // const currentTime = new Date();
-  // const [weeklyStepsWoWalking, setweeklyStepsWoWalking] = Extrasteps();
-  // const [sevendaySteps, setSevendaySteps] = useState(0);
-  // const [isAddPopupVisible, setisAddPopupVisible] = useState(false);
-  // const [sport, setSport] = useState('walking');
-  // const [day, setDay] = useState(currentTime.toLocaleDateString());
-  // SYNC DB IF NO DATA FOR THE LAST (FEW) DAYS - FOR MAX. 7 DAYS
   var checksport = 'walking';
-  // const [weeklySteps, setweeklySteps] = useStepCounter();
-
   var s = [];
   s = await getHistoryBySport(user.email, checksport);
-  // console.log(s);
-
 
   if (s.length < 1) {
     for (let j = 1; j < 7; j++) {
       saveStepsOnFirebase(user.email, checksport, week[j], weeklySteps[j]);
-      console.log("Database updated!");
     }
   } else {
-    // console.log(s[0]);
-    // console.log(s[0].day);
-    // console.log(week);
     for (let k = 1; k < 7; k++) {
       if (week[k] > s[0].day) {
-        // console.log(week[k]);
         saveStepsOnFirebase(user.email, checksport, week[k], weeklySteps[k]);
-        console.log("Database updated!");
       }
     }
   };
-
-  // console.log(weeklySteps[0]);
-  // setweeklyStepsWoWalking(ExtraSteps());
-
 }
 
 export default DbSync;

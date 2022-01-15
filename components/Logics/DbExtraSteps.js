@@ -47,12 +47,10 @@ week[6] = dateyyyymmdd(dbefore6);
 // console.log(week);
 var zs = [];
 
-export default function DbExtraSteps(user) {
+// AGGREGATE STEPS OTHER THAN WALKING FROM DB FOR LAST 7 DAYS
+export default async function DbExtraSteps(user) {
 
-  const currentTime = new Date();
   const sport = 'walking';
-  // AGGREGATE STEPS OTHER THAN WALKING FROM DB FOR LAST 7 DAYS
-
   var dailyrecords = []; // records for ALL sport for a given day
   var allrecords = []; // list of records for last 7 days - list of objects
   var recordswowalking = []; // list of records for ALL sports EXCEPT WALKING for last 7 days - list of objects
@@ -60,46 +58,33 @@ export default function DbExtraSteps(user) {
   var nonWalkingRecordsForADay = [];
   var dailyStepsWoWalking = 0;
 
+  // records for last seven days
+  for (let m = 0; m < 7; m++) {
+    dailyrecords = await getHistoryByDay(user.email, week[m]);
 
-  (async () => {
-    // console.log("hello db extra calc triggered");
-    // records for last seven days
-    for (let m = 0; m < 7; m++) {
-      dailyrecords = await getHistoryByDay(user.email, week[m]);
-      // console.log(dailyrecords);
+    // aggregate steps for different sports for a certain day
+    // and collect all records for last 7 days
+    var a = 0;
+    for (let l = 0; l < dailyrecords.length; l++) {
+      a = a + parseInt(dailyrecords[l].steps);
+      allrecords.push(dailyrecords[l]);
+    }
+    allsteps.push(a);
+  };
 
-      // aggregate steps for different sports for a certain day
-      // and collect all records for last 7 days
-      var a = 0;
-      for (let l = 0; l < dailyrecords.length; l++) {
-        a = a + parseInt(dailyrecords[l].steps);
-        allrecords.push(dailyrecords[l]);
-      }
-      allsteps.push(a);
+  // exclude walking
+  recordswowalking = allrecords.filter(record => record.sport != 'walking');
 
+  // non-walking steps for last 7 days
+  zs = [];
+  for (let r = 0; r < 7; r++) {
+    nonWalkingRecordsForADay = recordswowalking.filter(record => record.day == week[r]);
+    dailyStepsWoWalking = 0;
+    for (let q = 0; q < nonWalkingRecordsForADay.length; q++) {
+      dailyStepsWoWalking = dailyStepsWoWalking + nonWalkingRecordsForADay[q].steps;
     };
-    // console.log(allrecords);
-    // console.log(allsteps);
-
-    // exclude walking
-    recordswowalking = allrecords.filter(record => record.sport != 'walking');
-    // console.log(recordswowalking);
-
-    // non-walking steps for last 7 days
-    zs = [];
-    for (let r = 0; r < 7; r++) {
-      nonWalkingRecordsForADay = recordswowalking.filter(record => record.day == week[r]);
-      dailyStepsWoWalking = 0;
-      for (let q = 0; q < nonWalkingRecordsForADay.length; q++) {
-        dailyStepsWoWalking = dailyStepsWoWalking + nonWalkingRecordsForADay[q].steps;
-      };
-      // console.log(week[r] + " - " + dailyStepsWoWalking);
-      zs.push((parseInt(dailyStepsWoWalking)));
-      // console.log("*** zs: " + zs[r] + " ***");
-    };
-  })();
-
-  // console.log(typeof (zs));
+    zs.push((parseInt(dailyStepsWoWalking)));
+  };
 
   return [zs];
 }

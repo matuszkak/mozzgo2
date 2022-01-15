@@ -8,7 +8,7 @@ import { formatDate2 } from './Logics/FormatDate';
 const AddToSteps = props => {
 
   const [sliderValue, setSliderValue] = useState(30);
-  const [enteredSport, setEnteredSport] = useState('');
+  const [enteredSport, setEnteredSport] = useState('Swimming, freestyle');
   const [date, setDate] = useState(new Date());
   const [show, setShow] = useState(true);
 
@@ -21,9 +21,7 @@ const AddToSteps = props => {
   const inputHandler2 = enteredSport => { setEnteredSport(enteredSport) };
   const inputHandler3 = enteredDate => { setEnteredDate(enteredDate) };
 
-
   function ConvertToStep(sport) {
-
     var multiplier = 0;
     switch (sport) {
       case "Aerobic, step": multiplier = 153;
@@ -42,7 +40,7 @@ const AddToSteps = props => {
         break;
       case "Gymnastics": multiplier = 121;
         break;
-      case "Horse-riding)": multiplier = 90;
+      case "Horse-riding": multiplier = 90;
         break;
       case "Hiking": multiplier = 172;
         break;
@@ -69,6 +67,7 @@ const AddToSteps = props => {
     <Modal visible={props.visible} animationType={'slide'}>
       <View style={styles.inputContainer}>
 
+        {/* sport selector */}
         <View style={styles.container}>
           <Picker
             selectedValue={enteredSport}
@@ -85,7 +84,7 @@ const AddToSteps = props => {
             <Picker.Item color="#009688" label="Gymnastics (121/min)" value="Gymnastics" />
             <Picker.Item color="#009688" label="Horse-riding (90/min)" value="Horse-riding" />
             <Picker.Item label="Hiking (172/min)" value="Hiking" />
-            <Picker.Item color="#009688" label="Ice skating, general (84/min)" value="Ice skating" />
+            <Picker.Item color="#009688" label="Ice skating, general (84/min)" value="Ice skating, general" />
             <Picker.Item color="#009688" label="Squash (348/min)" value="Squash" />
             <Picker.Item color="#009688" label="Swimming, freestyle (181/min)" value="Swimming, freestyle" />
             <Picker.Item color="#009688" label="Table tennis (120/min)" value="Table tennis" />
@@ -95,6 +94,7 @@ const AddToSteps = props => {
         </View>
 
 
+        {/* date selector */}
         <View style={styles.containeryyy}>
           <DateTimePicker style={{ flex: 1, width: 380, }}
             value={date}
@@ -108,13 +108,10 @@ const AddToSteps = props => {
           />
         </View>
 
-
-
+        {/* activity minute setter */}
         <View style={styles.containerxxx}>
-
           <Text style={{ color: '#009688', fontSize: 22 }}>         Sports activity in minutes:          </Text>
           <Text style={{ color: '#009688', textAlign: 'center', fontSize: 22 }}>{sliderValue}</Text>
-
           <Slider
             maximumValue={180}
             minimumValue={0}
@@ -126,7 +123,7 @@ const AddToSteps = props => {
           />
         </View>
 
-
+        {/* buttons - canc vs. add */}
         <View style={styles.buttonContainer}>
           <TouchableOpacity
             style={styles.buttonView}
@@ -141,7 +138,6 @@ const AddToSteps = props => {
             style={styles.buttonView}
             onPress={() => {
               saveStepsOnFirebase(props.userData.email, enteredSport, formatDate2(date), sliderValue * ConvertToStep(enteredSport));
-
               setSliderValue('30');
               props.onCancel();
             }}>
@@ -154,20 +150,6 @@ const AddToSteps = props => {
 };
 
 const styles = StyleSheet.create({
-  // textInput: {
-  //   // borderColor: '#148F77',
-  //   backgroundColor: '#E8F8F5',
-  //   // borderWidth: 1,
-  //   padding: 10,
-  //   width: '79%',
-  //   borderRadius: 20,
-  //   marginVertical: 5,
-  //   fontSize: 20,
-  //   shadowColor: '#171717',
-  //   shadowOffset: { width: -2, height: 4 },
-  //   shadowOpacity: 0.2,
-  //   shadowRadius: 3,
-  // },
   buttonContainer: {
     flexDirection: 'row',
     marginTop: 20,
@@ -203,8 +185,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: 'white',
     borderRadius: 32,
-    // borderColor: '#148F77',
-    // borderWidth: 1,
     backgroundColor: '#E8F8F5',
     shadowColor: '#171717',
     shadowOffset: { width: -2, height: 4 },
@@ -220,8 +200,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: '#E8F8F5',
     borderRadius: 32,
-    // borderColor: '#148F77',
-    // borderWidth: 1,
     shadowColor: '#171717',
     shadowOffset: { width: -2, height: 4 },
     shadowOpacity: 0.2,
@@ -235,8 +213,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: '#E8F8F5',
     borderRadius: 32,
-    // borderColor: '#148F77',
-    // borderWidth: 1,
     shadowColor: '#171717',
     shadowOffset: { width: -2, height: 4 },
     shadowOpacity: 0.2,
@@ -245,4 +221,3 @@ const styles = StyleSheet.create({
 });
 
 export default AddToSteps;
-
