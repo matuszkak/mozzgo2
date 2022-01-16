@@ -1,5 +1,4 @@
-
-// date formatting
+// date setting and formatting
 function formatDate(date) {
   var d = new Date(date),
     month = '' + (d.getMonth() + 1),
@@ -8,7 +7,6 @@ function formatDate(date) {
     hour = d.getHours(),
     minute = d.getMinutes(),
     second = d.getSeconds();
-
   if (month.length < 2)
     month = '0' + month;
   if (day.length < 2)
@@ -19,7 +17,6 @@ function formatDate(date) {
     minute = '0' + minute;
   if (second < 10)
     second = '0' + second;
-
   return ([year, month, day].join('-') + ' ' + [hour, minute, second].join(':'));
 }
 
@@ -28,16 +25,12 @@ function formatDate2(date) {
     month = '' + (d.getMonth() + 1),
     day = '' + d.getDate(),
     year = d.getFullYear();
-
-
   if (month.length < 2)
     month = '0' + month;
   if (day.length < 2)
     day = '0' + day;
-
   return ([year, month, day].join('/'));
 }
-
 
 function getMonday(d) {
   d = new Date(d);
@@ -46,40 +39,10 @@ function getMonday(d) {
   return new Date(d.setDate(diff));
 }
 
-function getyesterday(d) {
-  d = new Date(d);
-  d.setDate(d.getDate() - 1);
-  return new Date(d);
-}
-
-function get2daybefore(d) {
-  d = new Date(d);
-  d.setDate(d.getDate() - 2);
-  return new Date(d);
-}
-
-function get3daybefore(d) {
-  d = new Date(d);
-  d.setDate(d.getDate() - 3);
-  return new Date(d);
-}
-
-function get4daybefore(d) {
-  d = new Date(d);
-  d.setDate(d.getDate() - 4);
-  return new Date(d);
-}
-
-function get5daybefore(d) {
-  d = new Date(d);
-  d.setDate(d.getDate() - 5);
-  return new Date(d);
-}
-
-function get6daybefore(d) {
-  d = new Date(d);
-  d.setDate(d.getDate() - 6);
-  return new Date(d);
+function getnDayBefore(d, n) {
+  var day = new Date(d);
+  day.setDate(day.getDate() - n);
+  return new Date(day);
 }
 
 function converttoDay(n) {
@@ -108,4 +71,4 @@ function converttoDay(n) {
   return day
 }
 
-export { getMonday, formatDate, formatDate2, get2daybefore, get3daybefore, get4daybefore, get5daybefore, get6daybefore, getyesterday, converttoDay };
+export { getMonday, formatDate, formatDate2, getnDayBefore, converttoDay };

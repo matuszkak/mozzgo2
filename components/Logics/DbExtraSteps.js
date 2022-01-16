@@ -1,5 +1,5 @@
 import React, { useState, useEffect, setState } from 'react';
-import { getyesterday, get2daybefore, get3daybefore, get4daybefore, get5daybefore, get6daybefore, converttoDay, getMonday } from './FormatDate.js';
+import { getnDayBefore, converttoDay, getMonday } from './FormatDate.js';
 import { StatusBar } from 'expo-status-bar';
 import { getHistory, getHistoryBySport, getHistoryByDay, saveStepsOnFirebase } from '../../database';
 
@@ -28,12 +28,12 @@ function addArrayElements(total, num) {
 const end = new Date();
 const start = new Date(new Date().setHours(0, 0, 0, 0));
 const lastMonday = getMonday(new Date().setHours(0, 0, 0, 0));
-const yesterday = getyesterday(new Date().setHours(0, 0, 0, 0));
-const dbefore2 = get2daybefore(new Date().setHours(0, 0, 0, 0));
-const dbefore3 = get3daybefore(new Date().setHours(0, 0, 0, 0));
-const dbefore4 = get4daybefore(new Date().setHours(0, 0, 0, 0));
-const dbefore5 = get5daybefore(new Date().setHours(0, 0, 0, 0));
-const dbefore6 = get6daybefore(new Date().setHours(0, 0, 0, 0));
+const yesterday = getnDayBefore(new Date().setHours(0, 0, 0, 0), 1);
+const dbefore2 = getnDayBefore(new Date().setHours(0, 0, 0, 0), 2);
+const dbefore3 = getnDayBefore(new Date().setHours(0, 0, 0, 0), 3);
+const dbefore4 = getnDayBefore(new Date().setHours(0, 0, 0, 0), 4);
+const dbefore5 = getnDayBefore(new Date().setHours(0, 0, 0, 0), 5);
+const dbefore6 = getnDayBefore(new Date().setHours(0, 0, 0, 0), 6);
 
 // identify dates for last 7 days
 var week = [];

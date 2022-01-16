@@ -139,6 +139,7 @@ const AddToSteps = props => {
             onPress={() => {
               saveStepsOnFirebase(props.userData.email, enteredSport, formatDate2(date), sliderValue * ConvertToStep(enteredSport));
               setSliderValue('30');
+              props.onAdd();
               props.onCancel();
             }}>
             <Text style={styles.buttonText}>    Add    </Text>
