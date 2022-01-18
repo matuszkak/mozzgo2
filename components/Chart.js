@@ -78,14 +78,20 @@ export default function Chart(props) {
       w[i] = dateyyyymmdd(new Date(d));
     }
     setWeek(w);
-    console.log(week);
+    // console.log(week);
 
     if (screenUpdateNeeded) {
 
-      downloadExtraSteps().then(calcStepsAll).then(setSync(true)).then(console.log(weeklyExtraSteps)).then(setScreenUpdateNeeded(false)).then(console.log(sync));
+      downloadExtraSteps().then(setSync(true)).then(setScreenUpdateNeeded(false)).then(calcStepsAll);
     };
 
-  }, [weeklyExtraSteps]);
+  }, [weeklyExtraSteps, screenUpdateNeeded]);
+
+  useEffect(() => {
+    console.log(props.weeklySteps);
+    calcStepsAll();
+  }, [props.weeklySteps, screenUpdateNeeded, weeklyExtraSteps]);
+
 
   if (!sync) {
     return <AppLoading />;
@@ -174,7 +180,9 @@ export default function Chart(props) {
 
         <AddToSteps
           userData={props.userData}
-          onAdd={() => { setScreenUpdateNeeded(true); }}
+          onAdd={() => {
+            setScreenUpdateNeeded(true);
+          }}
           visible={isAddPopupVisible}
           onCancel={() => {
             setisAddPopupVisible(false);

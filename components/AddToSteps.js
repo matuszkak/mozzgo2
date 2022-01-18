@@ -110,7 +110,7 @@ const AddToSteps = props => {
 
         {/* activity minute setter */}
         <View style={styles.containerxxx}>
-          <Text style={{ color: '#009688', fontSize: 22 }}>         Sports activity in minutes:          </Text>
+          <Text style={{ color: '#009688', fontSize: 21 }}>         Sports activity in minutes:          </Text>
           <Text style={{ color: '#009688', textAlign: 'center', fontSize: 22 }}>{sliderValue}</Text>
           <Slider
             maximumValue={180}
