@@ -6,7 +6,7 @@
     "orientation": "portrait",
     "icon": "./assets/footz6060.png",
     "splash": {
-      "image": "./assets/footz6060.jpg",
+      "image": "./assets/footz6060.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
