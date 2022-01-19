@@ -4,9 +4,9 @@
     "slug": "mozzgo-app",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/footz.jpg",
+    "icon": "./assets/footz6060.png",
     "splash": {
-      "image": "./assets/footz.jpg",
+      "image": "./assets/footz6060.jpg",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
