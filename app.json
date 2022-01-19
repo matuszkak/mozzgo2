@@ -6,7 +6,7 @@
     "orientation": "portrait",
     "icon": "./assets/footz.jpg",
     "splash": {
-      "image": "./assets/footz.jng",
+      "image": "./assets/footz.jpg",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
