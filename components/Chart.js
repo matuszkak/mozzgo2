@@ -73,7 +73,7 @@ export default function Chart(props) {
     // identify dates for last 7 days
     var w = [];
     for (i = 0; i < 7; i++) {
-      var d = new Date();
+      var d = new Date(props.appTime);
       d.setDate(d.getDate() - i);
       w[i] = dateyyyymmdd(new Date(d));
     }
@@ -85,12 +85,12 @@ export default function Chart(props) {
       downloadExtraSteps().then(setSync(true)).then(setScreenUpdateNeeded(false)).then(calcStepsAll);
     };
 
-  }, [weeklyExtraSteps, screenUpdateNeeded]);
+  }, [screenUpdateNeeded]);
 
   useEffect(() => {
-    console.log(props.weeklySteps);
+    // console.log(props.weeklySteps);
     calcStepsAll();
-  }, [props.weeklySteps, screenUpdateNeeded, weeklyExtraSteps]);
+  }, [props.weeklySteps]);
 
 
   if (!sync) {
@@ -98,7 +98,7 @@ export default function Chart(props) {
 
   } else {
 
-    DbSync(props.userData, props.weeklySteps);
+    // DbSync(props.userData, props.weeklySteps);
 
     return (
       <View style={styles.container}>

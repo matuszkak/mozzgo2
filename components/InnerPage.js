@@ -24,6 +24,7 @@ function InnerPage(props) {
               setUserData={props.setUserData}
               userData={props.userData}
               weeklySteps={props.weeklySteps}
+              appTime={props.appTime}
             />
           )}
         </Stack.Screen>
@@ -42,8 +43,8 @@ function InnerPage(props) {
               {...navigatorProps}
               userData={props.userData}
               weeklySteps={props.weeklySteps}
-            // setWeeklyExtraSteps={props.setWeeklyExtraSteps}
-            // weeklyExtraSteps={props.weeklyExtraSteps}
+              appTime={props.appTime}
+
             />
           )}
         </Stack.Screen>
