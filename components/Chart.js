@@ -20,7 +20,7 @@ import { formatDate, converttoDay, getMonday, getnDayBefore } from './Logics/For
 import logo from '../assets/footz.jpg';
 import appname from '../assets/Mozzgogif2.gif';
 import DbExtraSteps from './Logics/DbExtraSteps';
-import DbSync from './Logics/DbSync';
+// import DbSync from './Logics/DbSync';
 
 
 export default function Chart(props) {
@@ -92,13 +92,10 @@ export default function Chart(props) {
     calcStepsAll();
   }, [props.weeklySteps]);
 
-
   if (!sync) {
     return <AppLoading />;
 
   } else {
-
-    // DbSync(props.userData, props.weeklySteps);
 
     return (
       <View style={styles.container}>

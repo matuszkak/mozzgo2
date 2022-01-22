@@ -8,6 +8,7 @@ import AppLoading from 'expo-app-loading';
 import { loginStatus } from '../auth';
 import { getUserDataByEmail } from '../database';
 import { storeUserData } from '../localStorage';
+import DbSync from './Logics/DbSync';
 // import useStepCounter from './Logics/CounterLogic';
 
 import logo from '../assets/footz.jpg';
@@ -31,6 +32,7 @@ export default function Home(props) {
             props.setUserData(userData);
 
         })();
+
     }, []);
 
     if (!fontsLoaded) {

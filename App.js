@@ -26,6 +26,9 @@ export default function App() {
       }
     })();
 
+    DbSync(userData, weeklySteps);
+
+
     const dayend = new Date(apptime);
     dayend.setHours(23, 59, 59, 59);
     const delay = dayend - apptime;
@@ -52,7 +55,6 @@ export default function App() {
   if (userData === null) {
     return <LoginPage setUserData={setUserData} />;
   } else {
-
 
     return (
       <InnerPage setUserData={setUserData} userData={userData} weeklySteps={weeklySteps} appTime={appTime} />
