@@ -7,9 +7,10 @@ import { getUserData } from './localStorage';
 import useStepCounter from './components/Logics/CounterLogic';
 import DbSync from './components/Logics/DbSync';
 
-const apptime = new Date();
+
 
 export default function App() {
+  const apptime = new Date();
   const [userData, setUserData] = useState(null);
   const [actual, setActual] = useState(false);
   const [appTime, setAppTime] = useState(apptime);
@@ -23,15 +24,20 @@ export default function App() {
       const storedUser = await getUserData();
       if (storedUser) {
         setUserData(storedUser);
-      }
-    })();
+      };
+    })().then(() => DbSync(userData, weeklySteps));
+  }, []);
 
-    DbSync(userData, weeklySteps);
+  // useEffect(() => {
+  //   if (userData) {
+  //     ;
+  //   }
+  // }, [userData]);
 
-
-    const dayend = new Date(apptime);
+  useEffect(() => {
+    var dayend = new Date(apptime);
     dayend.setHours(23, 59, 59, 59);
-    const delay = dayend - apptime;
+    var delay = dayend - apptime;
     setTimeout(() => {
 
       setAppTime(new Date());
@@ -44,10 +50,10 @@ export default function App() {
 
     }, delay);
 
-    console.log(apptime);
-    console.log(appTime);
-    console.log(dayend);
-    console.log(delay);
+    console.log(apptime + " apptime");
+    console.log(appTime + " appTime");
+    console.log(dayend + " dayend");
+    console.log(delay / 3600000 + " hours until day change");
 
   }, [actual]);
 
@@ -55,10 +61,10 @@ export default function App() {
   if (userData === null) {
     return <LoginPage setUserData={setUserData} />;
   } else {
-
+    // setTimeout(() => (async () => { DbSync(userData, weeklySteps) })(), 60000);
     return (
       <InnerPage setUserData={setUserData} userData={userData} weeklySteps={weeklySteps} appTime={appTime} />
     );
-    // };
+
   };
 }
