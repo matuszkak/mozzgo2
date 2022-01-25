@@ -23,9 +23,9 @@ export default function App() {
     (async () => {
       const storedUser = await getUserData();
       if (storedUser) {
-        setUserData(storedUser);
+        setUserData(storedUser).then(() => DbSync(userData, weeklySteps))
       };
-    })().then(() => DbSync(userData, weeklySteps));
+    });
   }, []);
 
   // useEffect(() => {

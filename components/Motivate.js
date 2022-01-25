@@ -6,7 +6,7 @@ import Home from './Home';
 
 export default function Motivate(props) {
 
-  const [link, setLink] = useState('');
+  const [link, setLink] = useState(null);
 
   const generateImage = async () => {
     const response = await fetch('https://inspirobot.me/api?generate=true');

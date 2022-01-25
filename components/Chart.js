@@ -1,5 +1,5 @@
 import React, { useState, useEffect, setState } from 'react';
-import {
+import { useFocusEffect } from '@react-navigation/native'; import {
   SafeAreaView,
   Image,
   View,
@@ -26,7 +26,7 @@ import DbExtraSteps from './Logics/DbExtraSteps';
 export default function Chart(props) {
 
   const [weeklyExtraSteps, setWeeklyExtraSteps] = useState([0, 0, 0, 0, 0, 0, 0]);
-  const [weALL, setWeALL] = useState();
+  const [weALL, setWeALL] = useState(0);
   const [isAddPopupVisible, setisAddPopupVisible] = useState(false);
   const [week, setWeek] = useState([]);
   const [sync, setSync] = useState(false);
@@ -63,9 +63,8 @@ export default function Chart(props) {
   }
 
   // call overall steps for last a week (normal + extra)
-  function calcStepsAll() {
+  async function calcStepsAll() {
     setWeALL(addArrayElements(props.weeklySteps) + addArrayElements(weeklyExtraSteps));
-    return
   }
 
   useEffect(() => {
@@ -82,10 +81,15 @@ export default function Chart(props) {
 
     if (screenUpdateNeeded) {
 
-      downloadExtraSteps().then(setSync(true)).then(setScreenUpdateNeeded(false)).then(calcStepsAll);
+      downloadExtraSteps().then(setScreenUpdateNeeded(false)).then(calcStepsAll()).then(setSync(true));
     };
 
   }, [screenUpdateNeeded]);
+
+  useFocusEffect(() => {
+    // console.log(props.weeklySteps);
+    calcStepsAll();
+  });
 
   useEffect(() => {
     // console.log(props.weeklySteps);
