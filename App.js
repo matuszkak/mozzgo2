@@ -8,22 +8,22 @@ import useStepCounter from './components/Logics/CounterLogic';
 import DbSync from './components/Logics/DbSync';
 
 
-
 export default function App() {
-  const apptime = new Date();
+
   const [userData, setUserData] = useState(null);
-  const [actual, setActual] = useState(false);
-  const [appTime, setAppTime] = useState(apptime);
-  const [weeklySteps, setweeklySteps] = useStepCounter(new Date(appTime));
-
-
+  const [appTime, setAppTime] = useState(new Date());
+  const [weeklySteps, setweeklySteps] = useStepCounter();
 
   // load user
   useEffect(() => {
+
     (async () => {
       const storedUser = await getUserData();
+      // console.log(userData);
       if (storedUser) {
-        setUserData(storedUser).then(() => DbSync(userData, weeklySteps))
+        setUserData(storedUser);
+
+
       };
     });
   }, []);
@@ -33,34 +33,19 @@ export default function App() {
   //     ;
   //   }
   // }, [userData]);
+  // useEffect(() => {
+  //   setAppTime(new Date());
+  //   setDayend(new Date().setHours(23, 59, 59, 999));
+  // var dayend = new Date(appTime);
+  // dayend.setHours(23, 59, 59, 59);
 
-  useEffect(() => {
-    var dayend = new Date(apptime);
-    dayend.setHours(23, 59, 59, 59);
-    var delay = dayend - apptime;
-    setTimeout(() => {
-
-      setAppTime(new Date());
-      DbSync(userData, weeklySteps);
-      if (actual === true) {
-        setActual(false);
-      } else {
-        setActual(true);
-      }
-
-    }, delay);
-
-    console.log(apptime + " apptime");
-    console.log(appTime + " appTime");
-    console.log(dayend + " dayend");
-    console.log(delay / 3600000 + " hours until day change");
-
-  }, [actual]);
+  // setAppTime(new Date());
 
   // if user logged in go to Homepage, otherwise go to Login page
   if (userData === null) {
     return <LoginPage setUserData={setUserData} />;
   } else {
+
     // setTimeout(() => (async () => { DbSync(userData, weeklySteps) })(), 60000);
     return (
       <InnerPage setUserData={setUserData} userData={userData} weeklySteps={weeklySteps} appTime={appTime} />

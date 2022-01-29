@@ -87,6 +87,7 @@ export default function HistoryPage(props) {
 }
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: 'white',
     padding: 10,
     alignItems: 'stretch',
     // https://stackoverflow.com/a/59183680/9004180
@@ -95,6 +96,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   historyItemContainer: {
+    backgroundColor: 'white',
     paddingHorizontal: 40,
     paddingVertical: 5,
     margin: 5,

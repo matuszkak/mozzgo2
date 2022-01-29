@@ -16,6 +16,10 @@ import appname from '../assets/Mozzgogif2.gif';
 
 export default function Home(props) {
 
+    const [actual, setActual] = useState(false);
+    const [firsttime, setFirsttime] = useState(true);
+    const [dayend, setDayend] = useState(new Date().setHours(23, 59, 59, 999));
+
     let [fontsLoaded] = useFonts({
         'AvenirNextHeavyItalic': require('../assets/fonts/AvenirNextHeavyItalic.ttf'),
         'AvenirNextULtltalic': require('../assets/fonts/AvenirNextULtltalic.ttf'),
@@ -24,16 +28,40 @@ export default function Home(props) {
     });
 
     useEffect(() => {
+
         (async () => {
             const firebaseUser = await loginStatus();
             const userData = await getUserDataByEmail(firebaseUser.email);
             await storeUserData(userData);
             console.log(`${userData.name} received when innerpage loaded ${props.weeklySteps}`);
             props.setUserData(userData);
-
         })();
-
     }, []);
+
+    useEffect(() => {
+        setDayend(new Date().setHours(23, 59, 59, 999));
+        const delay = dayend - new Date();
+        if (firsttime) {
+            setTimeout(() => {
+                DbSync(props.userData, props.weeklySteps);
+                if (actual) { setActual(false) } else { setActual(true) };
+                setFirsttime(false);
+            }, delay);
+        } else {
+            setTimeout(() => {
+                DbSync(props.userData, props.weeklySteps);
+                if (actual) { setActual(false) } else { setActual(true) };
+            }, 86400000);
+        };
+
+        console.log(firsttime + " first time?");
+        console.log(props.appTime + " appTime");
+        console.log(new Date(dayend) + " dayend");
+        console.log(delay / 3600000 + " hours until day change");
+        console.log(actual + " - aktuális már az adatbázis?");
+
+    }, [actual]);
+
 
     if (!fontsLoaded) {
         return <AppLoading />;

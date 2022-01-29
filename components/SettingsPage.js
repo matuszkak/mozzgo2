@@ -53,6 +53,7 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   buttonContainer: {
+    backgroundColor: 'white',
     flexDirection: 'row',
     marginTop: 30,
     width: '100%',

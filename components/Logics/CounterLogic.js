@@ -2,7 +2,7 @@ import { Pedometer } from 'expo-sensors';
 import React, { useState, useEffect } from 'react';
 import { getnDayBefore, converttoDay } from './FormatDate.js';
 
-export default function useStepCounter(apptime) {
+export default function useStepCounter() {
 
     const [isPedometerAvailable, setisPedometerAvailable] = useState('checking');
     const [pastStepCount, setpastStepCount] = useState(0);
@@ -10,12 +10,12 @@ export default function useStepCounter(apptime) {
 
     // defining previous 6 days (Pedomater data available for 7 days retrospectively)
 
-    const yesterday = getnDayBefore(new Date(apptime).setHours(0, 0, 0, 0), 1);
-    const dbefore2 = getnDayBefore(new Date(apptime).setHours(0, 0, 0, 0), 2);
-    const dbefore3 = getnDayBefore(new Date(apptime).setHours(0, 0, 0, 0), 3);
-    const dbefore4 = getnDayBefore(new Date(apptime).setHours(0, 0, 0, 0), 4);
-    const dbefore5 = getnDayBefore(new Date(apptime).setHours(0, 0, 0, 0), 5);
-    const dbefore6 = getnDayBefore(new Date(apptime).setHours(0, 0, 0, 0), 6);
+    const yesterday = getnDayBefore(new Date().setHours(0, 0, 0, 0), 1);
+    const dbefore2 = getnDayBefore(new Date().setHours(0, 0, 0, 0), 2);
+    const dbefore3 = getnDayBefore(new Date().setHours(0, 0, 0, 0), 3);
+    const dbefore4 = getnDayBefore(new Date().setHours(0, 0, 0, 0), 4);
+    const dbefore5 = getnDayBefore(new Date().setHours(0, 0, 0, 0), 5);
+    const dbefore6 = getnDayBefore(new Date().setHours(0, 0, 0, 0), 6);
 
     const [yesterdayStepCount, setyesterdayStepCount] = useState(0);
     const [daybefore1StepCount, setdaybefore1StepCount] = useState(0);
@@ -51,9 +51,9 @@ export default function useStepCounter(apptime) {
         );
 
         // Stepcount for actual day (d)
-        const end = new Date(apptime);
+        const end = new Date();
         end.setHours(23, 59, 59, 999);
-        const start = new Date(apptime);
+        const start = new Date();
         start.setHours(0, 0, 0, 0);
         Pedometer.getStepCountAsync(start, end).then(
             result => {

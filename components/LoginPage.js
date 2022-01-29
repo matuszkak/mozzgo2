@@ -33,6 +33,7 @@ const LoginPage = props => {
         // store the user in localStorage:
         storeUserData(userDataFromFirebase);
         props.setUserData(userDataFromFirebase);
+        // console.log(userDataFromFirebase);
     };
 
     const register = async () => {
