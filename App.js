@@ -11,6 +11,7 @@ export default function App() {
   const [userData, setUserData] = useState(null);
   const [weeklySteps, setweeklySteps] = useStepCounter();
 
+
   // load user
   useEffect(() => {
     (async () => {

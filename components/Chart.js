@@ -1,4 +1,5 @@
 import React, { useState, useEffect, setState } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
 import {
   SafeAreaView,
   Image,
@@ -69,7 +70,12 @@ export default function Chart(props) {
   }
 
   useEffect(() => {
+    if (screenUpdateNeeded) {
+      downloadExtraSteps().then(setSync(true)).then(setScreenUpdateNeeded(false)).then(calcStepsAll);
+    };
+  }, [screenUpdateNeeded]);
 
+  useEffect(() => {
     // identify dates for last 7 days
     var w = [];
     for (i = 0; i < 7; i++) {
@@ -79,19 +85,14 @@ export default function Chart(props) {
     }
     setWeek(w);
     // console.log(week);
-
-    if (screenUpdateNeeded) {
-
-      downloadExtraSteps().then(setSync(true)).then(setScreenUpdateNeeded(false)).then(calcStepsAll);
-    };
-
-  }, [weeklyExtraSteps, screenUpdateNeeded]);
-
-  useEffect(() => {
     console.log(props.weeklySteps);
     calcStepsAll();
-  }, [props.weeklySteps, screenUpdateNeeded, weeklyExtraSteps]);
+  }, [props.weeklySteps]);
 
+  useFocusEffect(() => {
+    // console.log(props.weeklySteps);
+    calcStepsAll();
+  });
 
   if (!sync) {
     return <AppLoading />;

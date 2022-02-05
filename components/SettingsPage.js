@@ -13,16 +13,24 @@ export default function SettingsPage(props) {
   };
 
   return (
-    <View style={styles.buttonContainer}>
-      <TouchableOpacity
-        style={styles.buttonView} onPress={handleLogout}>
-        <Text style={styles.buttonText}> SIGN OUT </Text>
-      </TouchableOpacity>
+    <View style={styles.container}>
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity
+          style={styles.buttonView} onPress={handleLogout}>
+          <Text style={styles.buttonText}> SIGN OUT </Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  container: {
+    padding: 10,
+    alignItems: 'center',
+    flex: 1,
+    backgroundColor: 'white',
+  },
   button: {
     margin: 50,
     alignSelf: 'stretch',

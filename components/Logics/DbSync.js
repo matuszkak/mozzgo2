@@ -62,4 +62,6 @@ async function DbSync(user, weeklySteps) {
   };
 }
 
+console.log("DB synced...")
+
 export default DbSync;

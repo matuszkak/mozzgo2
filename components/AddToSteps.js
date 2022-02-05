@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Text, StyleSheet, TextInput, Button, View, Modal, TouchableOpacity, SafeAreaView, Picker, Platform } from 'react-native';
+import { Text, StyleSheet, TextInput, Button, View, Modal, TouchableOpacity, SafeAreaView, Platform } from 'react-native';
+import { Picker } from '@react-native-picker/picker';
 import { saveStepsOnFirebase } from '../database';
 import Slider from '@react-native-community/slider';
 import DateTimePicker from '@react-native-community/datetimepicker';

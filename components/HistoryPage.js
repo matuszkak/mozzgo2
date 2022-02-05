@@ -88,6 +88,7 @@ export default function HistoryPage(props) {
 const styles = StyleSheet.create({
   container: {
     padding: 10,
+    backgroundColor: 'white',
     alignItems: 'stretch',
     // https://stackoverflow.com/a/59183680/9004180
     // fixing the scrolling of the FlatList

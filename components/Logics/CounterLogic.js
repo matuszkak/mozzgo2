@@ -51,9 +51,9 @@ export default function useStepCounter() {
         );
 
         // Stepcount for actual day (d)
-        const end = new Date();
+        var end = new Date();
         end.setHours(23, 59, 59, 999);
-        const start = new Date();
+        var start = new Date();
         start.setHours(0, 0, 0, 0);
         Pedometer.getStepCountAsync(start, end).then(
             result => {
