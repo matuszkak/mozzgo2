@@ -42,3 +42,43 @@ export const removeUserData = async () => {
     console.log('error during getting user', e);
   }
 };
+
+
+// Store step data in Asyncstorage
+
+export const storeStepData = async stepData => {
+  try {
+    const jsonValue = JSON.stringify(stepData);
+    await AsyncStorage.setItem('@storage_StepData', jsonValue);
+    console.log(`${stepData} stored in local storage.`);
+  } catch (e) {
+    // saving error
+    console.log('error during saving step data to asyc local storage', e);
+  }
+};
+
+/**
+ * getStepData from async local storage
+ */
+export const getStepData = async () => {
+  try {
+    const jsonValue = await AsyncStorage.getItem('@storage_StepData', jsonValue);
+    return jsonValue != null ? JSON.parse(jsonValue) : null;
+  } catch (e) {
+    // saving error
+    console.log('error during getting steps', e);
+  }
+};
+
+/**
+ * removeStepData from async local storage
+ */
+export const removeStepData = async () => {
+  try {
+    await AsyncStorage.removeItem('@storage_StepData');
+    console.log('steps removed from local storage');
+  } catch (e) {
+    // saving error
+    console.log('error during removing steps', e);
+  }
+};

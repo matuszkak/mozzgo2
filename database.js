@@ -84,6 +84,7 @@ export async function getHistory(email) {
     };
     result.push(data);
   });
+  console.log("Full history downloaded");
   return result;
 }
 

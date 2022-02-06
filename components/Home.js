@@ -44,6 +44,11 @@ export default function Home(props) {
                     }>
                         <Text style={styles.logoutButtonText}> Settings </Text>
                     </TouchableOpacity>
+
+                    <TouchableOpacity style={styles.logoutButton2} onPress={() => props.navigation.navigate('Monthly chart')
+                    }>
+                        <Text style={styles.logoutButtonText}> Monthly chart </Text>
+                    </TouchableOpacity>
                 </View>
 
                 < Text style={{ color: '#148F77', fontSize: 28, fontFamily: 'AvenirNextDemiItalic', fontWeight: '200', marginTop: 40, marginBottom: 120 }} > Szia {props.userData.name}!</Text>
@@ -93,11 +98,17 @@ const styles = StyleSheet.create({
         marginVertical: 30,
     },
     logoutSection: {
-        alignSelf: 'stretch',
+        flexDirection: 'row',
     },
     logoutButton: {
-        alignSelf: 'stretch',
+        justifyContent: 'flex-start',
+        marginRight: 110,
     },
+    logoutButton2: {
+        justifyContent: 'flex-end',
+        marginLeft: 110,
+    },
+
     logoutButtonText: {
         marginRight: 'auto',
         fontStyle: 'italic',

@@ -75,7 +75,7 @@ export default function HistoryPage(props) {
       // console.log(props.userData.email);
       const historyFromFirebase = await getHistory(props.userData.email);
       setHistory(historyFromFirebase);
-      // console.log(history);
+      console.log(historyFromFirebase);
     })();
   }, []);
 

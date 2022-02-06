@@ -105,7 +105,7 @@ export default function Chart(props) {
       DbSync(props.userData, props.weeklySteps)
       lastsync = new Date();
       nextsync = new Date();
-      nextsync.setHours(lastsync.getHours() + 1);
+      nextsync.setHours(lastsync.getHours() + 12);
       console.log("last sync time: " + lastsync);
       console.log("next sync time: " + nextsync);
     };
@@ -176,7 +176,7 @@ export default function Chart(props) {
         />
         <Text style={{ color: '#148F77', fontSize: 14, fontFamily: 'AvenirNextULtltalic', fontWeight: '300', marginTop: 90 }}> Updated at {formatDate(new Date())}</Text>
         <Text></Text>
-        <Text style={{ color: '#148F77', fontSize: 14, fontFamily: 'AvenirNextULtltalic', fontWeight: '300', marginTop: 1 }}> Last synced at {formatDate(lastsync)}</Text>
+        <Text style={{ color: '#148F77', fontSize: 14, fontFamily: 'AvenirNextULtltalic', fontWeight: '300', marginTop: -10 }}> Last synced at {formatDate(lastsync)}</Text>
         <Text></Text>
         <View style={styles.inputContainer}>
           <View style={styles.buttonContainer}>

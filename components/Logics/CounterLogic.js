@@ -31,7 +31,7 @@ export default function useStepCounter() {
     var start = new Date();
     start.setHours(0, 0, 0, 0);
 
-    console.log(end, start, yesterday, dbefore2, dbefore3, dbefore4, dbefore5, dbefore6);
+    // console.log(end, start, yesterday, dbefore2, dbefore3, dbefore4, dbefore5, dbefore6);
 
     useEffect(() => {
         _subscribe();

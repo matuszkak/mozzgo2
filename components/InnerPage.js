@@ -7,6 +7,7 @@ import Home from './Home';
 import Chart from './Chart';
 import HistoryPage from './HistoryPage';
 import SettingsPage from './SettingsPage';
+import Monthly_chart from './Monthly_chart';
 
 const Stack = createNativeStackNavigator();
 
@@ -61,6 +62,16 @@ function InnerPage(props) {
               {...navigatorProps}
               setUserData={props.setUserData}
               userData={props.userData}
+            />
+          )}
+        </Stack.Screen>
+        <Stack.Screen name="Monthly chart">
+          {navigatorProps => (
+            <Monthly_chart
+              {...navigatorProps}
+              setUserData={props.setUserData}
+              userData={props.userData}
+              weeklySteps={props.weeklySteps}
             />
           )}
         </Stack.Screen>
