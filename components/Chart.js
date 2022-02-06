@@ -23,6 +23,8 @@ import appname from '../assets/Mozzgogif2.gif';
 import DbExtraSteps from './Logics/DbExtraSteps';
 import DbSync from './Logics/DbSync';
 
+var lastsync = null;
+var nextsync = null;
 
 export default function Chart(props) {
 
@@ -99,7 +101,14 @@ export default function Chart(props) {
 
   } else {
 
-    DbSync(props.userData, props.weeklySteps);
+    if (nextsync < new Date()) {
+      DbSync(props.userData, props.weeklySteps)
+      lastsync = new Date();
+      nextsync = new Date();
+      nextsync.setHours(lastsync.getHours() + 1);
+      console.log("last sync time: " + lastsync);
+      console.log("next sync time: " + nextsync);
+    };
 
     return (
       <View style={styles.container}>
@@ -166,6 +175,8 @@ export default function Chart(props) {
           }}
         />
         <Text style={{ color: '#148F77', fontSize: 14, fontFamily: 'AvenirNextULtltalic', fontWeight: '300', marginTop: 90 }}> Updated at {formatDate(new Date())}</Text>
+        <Text></Text>
+        <Text style={{ color: '#148F77', fontSize: 14, fontFamily: 'AvenirNextULtltalic', fontWeight: '300', marginTop: 1 }}> Last synced at {formatDate(lastsync)}</Text>
         <Text></Text>
         <View style={styles.inputContainer}>
           <View style={styles.buttonContainer}>
