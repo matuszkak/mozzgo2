@@ -92,6 +92,7 @@ export default function Chart(props) {
   }, [props.weeklySteps]);
 
   useFocusEffect(() => {
+
     // console.log(props.weeklySteps);
     calcStepsAll();
   });

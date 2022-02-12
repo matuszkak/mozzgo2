@@ -10,12 +10,7 @@ export default function useStepCounter() {
 
     // defining previous 6 days (Pedomater data available for 7 days retrospectively)
 
-    var yesterday = getnDayBefore(new Date().setHours(0, 0, 0, 0), 1);
-    var dbefore2 = getnDayBefore(new Date().setHours(0, 0, 0, 0), 2);
-    var dbefore3 = getnDayBefore(new Date().setHours(0, 0, 0, 0), 3);
-    var dbefore4 = getnDayBefore(new Date().setHours(0, 0, 0, 0), 4);
-    var dbefore5 = getnDayBefore(new Date().setHours(0, 0, 0, 0), 5);
-    var dbefore6 = getnDayBefore(new Date().setHours(0, 0, 0, 0), 6);
+
 
     const [yesterdayStepCount, setyesterdayStepCount] = useState(0);
     const [daybefore1StepCount, setdaybefore1StepCount] = useState(0);
@@ -25,11 +20,7 @@ export default function useStepCounter() {
     const [daybefore5StepCount, setdaybefore5StepCount] = useState(0);
     const [daybefore6StepCount, setdaybefore6StepCount] = useState(0);
 
-    // Stepcount for actual day (d)
-    var end = new Date();
-    end.setHours(23, 59, 59, 999);
-    var start = new Date();
-    start.setHours(0, 0, 0, 0);
+
 
     // console.log(end, start, yesterday, dbefore2, dbefore3, dbefore4, dbefore5, dbefore6);
 
@@ -44,8 +35,21 @@ export default function useStepCounter() {
     _subscribe = () => {
         _subscription = Pedometer.watchStepCount(result => {
             setcurrentStepCount(result.steps)
+
         });
 
+        // Stepcount for actual day (d)
+        var end = new Date();
+        end.setHours(23, 59, 59, 999);
+        var start = new Date();
+        start.setHours(0, 0, 0, 0);
+
+        var yesterday = getnDayBefore(new Date().setHours(0, 0, 0, 0), 1);
+        var dbefore2 = getnDayBefore(new Date().setHours(0, 0, 0, 0), 2);
+        var dbefore3 = getnDayBefore(new Date().setHours(0, 0, 0, 0), 3);
+        var dbefore4 = getnDayBefore(new Date().setHours(0, 0, 0, 0), 4);
+        var dbefore5 = getnDayBefore(new Date().setHours(0, 0, 0, 0), 5);
+        var dbefore6 = getnDayBefore(new Date().setHours(0, 0, 0, 0), 6);
 
         // Availability check for Pedometer on device
         Pedometer.isAvailableAsync().then(

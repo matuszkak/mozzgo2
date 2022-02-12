@@ -50,7 +50,8 @@ export const storeStepData = async stepData => {
   try {
     const jsonValue = JSON.stringify(stepData);
     await AsyncStorage.setItem('@storage_StepData', jsonValue);
-    console.log(`${stepData} stored in local storage.`);
+    // console.log(`${stepData} stored in local storage.`);
+    console.log("Data stored in AsyncStorage");
   } catch (e) {
     // saving error
     console.log('error during saving step data to asyc local storage', e);
@@ -64,6 +65,7 @@ export const getStepData = async () => {
   try {
     const jsonValue = await AsyncStorage.getItem('@storage_StepData', jsonValue);
     return jsonValue != null ? JSON.parse(jsonValue) : null;
+    console.log("Data retreiwed from AsyncStorage");
   } catch (e) {
     // saving error
     console.log('error during getting steps', e);
