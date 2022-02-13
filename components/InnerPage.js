@@ -65,7 +65,7 @@ function InnerPage(props) {
             />
           )}
         </Stack.Screen>
-        <Stack.Screen name="Monthly chart">
+        <Stack.Screen name="Progress chart">
           {navigatorProps => (
             <Monthly_chart
               {...navigatorProps}

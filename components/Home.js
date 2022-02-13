@@ -45,9 +45,9 @@ export default function Home(props) {
                         <Text style={styles.logoutButtonText}> Settings </Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={styles.logoutButton2} onPress={() => props.navigation.navigate('Monthly chart')
+                    <TouchableOpacity style={styles.logoutButton2} onPress={() => props.navigation.navigate('Progress chart')
                     }>
-                        <Text style={styles.logoutButtonText}> Monthly chart </Text>
+                        <Text style={styles.logoutButtonText}> Progress chart </Text>
                     </TouchableOpacity>
                 </View>
 
