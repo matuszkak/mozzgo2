@@ -53,8 +53,8 @@ export default function Home(props) {
 
                 < Text style={{ color: '#148F77', fontSize: 28, fontFamily: 'AvenirNextDemiItalic', fontWeight: '200', marginTop: 40, marginBottom: 120 }} > Szia {props.userData.name}!</Text>
 
-                <Image source={logo} style={{ width: 100, height: 100, marginBottom: -10 }} />
-                <Image source={appname} style={{ width: 150, height: 100, marginBottom: -20 }} />
+                <Image source={logo} style={{ width: '18%', height: '12%', marginBottom: '-2%' }} />
+                <Image source={appname} style={{ width: '30%', height: '15%', marginBottom: '-3%' }} />
 
                 <Text style={{ color: '#148F77', fontSize: 18, fontFamily: 'AvenirNextDemiItalic', fontWeight: '300', marginTop: 10, marginBottom: 20 }}>Move your ass watch this go up: {props.weeklySteps[0] + 0}</Text>
 
@@ -156,8 +156,8 @@ const styles = StyleSheet.create({
         elevation: 8,
         backgroundColor: '#009688',
         borderRadius: 12,
-        paddingVertical: 10,
-        paddingHorizontal: 12,
+        paddingVertical: '3%',
+        paddingHorizontal: '3%',
         margin: 10,
     },
     buttonText: {

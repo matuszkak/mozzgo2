@@ -72,7 +72,7 @@ const AddToSteps = props => {
         <View style={styles.container}>
           <Picker
             selectedValue={enteredSport}
-            style={{ height: 30, width: 380 }}
+            style={{ height: '3%', width: 380 }}
             onValueChange={(itemValue, itemIndex) => setEnteredSport(itemValue)}
           >
             <Picker.Item color="#009688" label="Aerobic, step (131/min)" value="Aerobic, step" />
@@ -111,7 +111,7 @@ const AddToSteps = props => {
 
         {/* activity minute setter */}
         <View style={styles.containerxxx}>
-          <Text style={{ color: '#009688', fontSize: 21 }}>         Sports activity in minutes:          </Text>
+          <Text style={{ color: '#009688', fontSize: 21 }}>           Sports activity in minutes:           </Text>
           <Text style={{ color: '#009688', textAlign: 'center', fontSize: 22 }}>{sliderValue}</Text>
           <Slider
             maximumValue={180}
@@ -169,8 +169,8 @@ const styles = StyleSheet.create({
     elevation: 8,
     backgroundColor: '#009688',
     borderRadius: 12,
-    paddingVertical: 10,
-    paddingHorizontal: 12,
+    paddingVertical: '3%',
+    paddingHorizontal: '3%',
     margin: 10,
   },
   buttonText: {

@@ -9,7 +9,7 @@ import useStepCounter from './components/Logics/CounterLogic';
 
 export default function App() {
   const [userData, setUserData] = useState(null);
-  const [weeklySteps, setweeklySteps] = useStepCounter();
+  const [weeklySteps, setWeeklySteps] = useStepCounter();
 
 
   // load user
@@ -22,13 +22,25 @@ export default function App() {
     })();
   }, []);
 
+  // daychange
+  // useEffect(() => {
+
+
+  //   var now = new Date();
+  //   var tomorrow = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
+  //   var tilltomorrow = tomorrow - now;
+  //   setTimeout(setWeeklySteps(useStepCounter()), tilltomorrow);
+
+
+  // }, []);
+
   // if user logged in go to Homepage, otherwise go to Login page
   if (userData === null) {
     return <LoginPage setUserData={setUserData} />;
   } else {
 
     return (
-      <InnerPage setUserData={setUserData} userData={userData} weeklySteps={weeklySteps} />
+      <InnerPage setUserData={setUserData} userData={userData} weeklySteps={weeklySteps} setweeklySteps={setWeeklySteps} />
     );
     // };
   };

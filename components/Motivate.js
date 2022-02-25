@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   subFont: {
-    marginTop: 6, marginLeft: -15, marginBottom: 80,
+    marginTop: '1%', marginLeft: -15, marginBottom: '8%',
     fontSize: 20,
     width: '100%',
     textAlign: 'center',

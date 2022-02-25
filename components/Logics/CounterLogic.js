@@ -20,16 +20,20 @@ export default function useStepCounter() {
     const [daybefore5StepCount, setdaybefore5StepCount] = useState(0);
     const [daybefore6StepCount, setdaybefore6StepCount] = useState(0);
 
-
+    const [starttt, setStarttt] = useState(0);
 
     // console.log(end, start, yesterday, dbefore2, dbefore3, dbefore4, dbefore5, dbefore6);
 
     useEffect(() => {
+        var startt = new Date().setHours(0, 0, 0, 0);
+        setStarttt(new Date(startt));
+
         _subscribe();
         return () => {
             _unsubscribe();
+
         }
-    }, [])
+    }, [pastStepCount])
 
     //pedometer function
     _subscribe = () => {
@@ -62,7 +66,7 @@ export default function useStepCounter() {
         );
 
 
-        Pedometer.getStepCountAsync(start, end).then(
+        Pedometer.getStepCountAsync(starttt, new Date()).then(
             result => {
                 setpastStepCount(result.steps)
             },
@@ -72,7 +76,7 @@ export default function useStepCounter() {
         );
 
         // Stepcounts for previous days (d-1... d-6)
-        Pedometer.getStepCountAsync(yesterday, start).then(
+        Pedometer.getStepCountAsync(yesterday, starttt).then(
             result => {
                 setyesterdayStepCount(result.steps);
             },

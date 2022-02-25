@@ -85,8 +85,8 @@ export default function Monthly_chart(props) {
       storeStepData(historyFromFirebase);
       console.log("# of all records in DB: " + historyFromFirebase.length);
 
-      monthlyvalues = {};
-      monthlyvalue = [];
+      // monthlyvalues = {};
+      // monthlyvalue = [];
       var mm = 0;
       var mm7 = 0;
       var mm30 = 0;
@@ -111,6 +111,7 @@ export default function Monthly_chart(props) {
         // calculate steps for last 7 days
         if (historyFromFirebase[l].day > dateyyyymmdd(new Date(date - 7 * 60 * 60 * 24 * 1000))) {
           mm7 = mm7 + parseInt(historyFromFirebase[l].steps);
+          console.log(historyFromFirebase[l].steps)
         };
 
         // calculate all-time steps
@@ -135,12 +136,12 @@ export default function Monthly_chart(props) {
       setM30(mm30);
       setMonthlysteps(mm);
       setAllsteps(aa);
-      monthlyvalue[0] = dateyyyymmdd(firstDayOfMonth);
-      monthlyvalue[1] = mm;
-      console.log("Monthly value: " + monthlyvalue);
+      // monthlyvalue[0] = dateyyyymmdd(firstDayOfMonth);
+      // monthlyvalue[1] = mm;
+      // console.log("Monthly value: " + monthlyvalue);
       console.log("All-time value: ", aa);
-      console.log("7-day value: ", m7);
-      console.log("30-day value: ", m30);
+      console.log("7-day value: ", mm7);
+      console.log("30-day value: ", mm30);
 
       // console.log(dd);
     })().then(
@@ -162,7 +163,7 @@ export default function Monthly_chart(props) {
 
   const data = {
     labels: ["All-time", "30-day", "7-day", "Today"], // optional
-    data: [Math.round(allsteps / noofalldays) / 10000, Math.round(m30 / 30) / 10000, Math.round(m7 / 7) / 10000, Math.round(props.weeklySteps[0]) / 10000],
+    data: [Math.min(allsteps / noofalldays / 10000, 1), Math.min(m30 / 30 / 10000, 1), Math.min(m7 / 7 / 10000, 1), Math.min(props.weeklySteps[0] / 10000, 1)],
     colors: [
       "rgba(20, 143, 119, 0.4)",
       "rgba(20, 143, 119, 0.7)",
@@ -187,8 +188,8 @@ export default function Monthly_chart(props) {
 
       <Text style={{ color: '#148F77', fontSize: 18, fontFamily: 'AvenirNextDemiItalic', fontWeight: '300', marginTop: 10, marginBottom: 20 }}>Steps today: {props.weeklySteps[0]}</Text>
 
-      <Image source={logo} style={{ width: 100, height: 100, marginBottom: -10 }} />
-      <Image source={appname} style={{ width: 150, height: 100, marginBottom: -20 }} />
+      <Image source={logo} style={{ width: '18%', height: '12%', marginBottom: '-3%' }} />
+      <Image source={appname} style={{ width: '30%', height: '15%', marginBottom: '-3%' }} />
 
 
       {/* // each value represents a goal ring in Progress chart */}
@@ -197,9 +198,9 @@ export default function Monthly_chart(props) {
       <ProgressChart
         data={data}
         width={Dimensions.get("window").width - 50}
-        height={320}
-        strokeWidth={20}
-        radius={20}
+        height={Dimensions.get("window").width - 150}
+        strokeWidth={17}
+        // radius={15}
         hasLegend={false}
         withCustomBarColorFromData={true}
         // hideLegend={true}

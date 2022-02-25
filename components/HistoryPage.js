@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
   },
   bin: {
 
-    marginLeft: 140,
+    marginLeft: '45%',
     marginTop: 0,
     // paddingHorizontal: 40,
     // paddingVertical: 5,
