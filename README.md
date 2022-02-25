@@ -9,7 +9,7 @@ Használat:
 
 ## Demo 
 
-![Getting Started](./assets/img.png)
+![Getting Started](./assets/uis.png)
 
 ### !!fontos tudnivalók
 
