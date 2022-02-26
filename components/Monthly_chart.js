@@ -46,6 +46,7 @@ export default function Monthly_chart(props) {
   const [downloaded, setDownloaded] = useState(false);
   const [noofdays, setnoofdays] = useState(null);
   const [noofalldays, setnoofalldays] = useState(null);
+  const [sync2, setSync2] = useState(false);
   var stepssss = 0;
   var maxstepssss = 0;
 
@@ -55,6 +56,11 @@ export default function Monthly_chart(props) {
   const [m30, setM30] = useState(null);
   const [monthlysteps, setMonthlysteps] = useState(null);
   const [allsteps, setAllsteps] = useState(null);
+  const [a, setA] = useState(0);
+  const [b, setB] = useState(0);
+  const [c, setC] = useState(0);
+  const [d, setD] = useState(0);
+
 
   useEffect(() => {
     (async () => {
@@ -143,6 +149,10 @@ export default function Monthly_chart(props) {
       console.log("7-day value: ", mm7);
       console.log("30-day value: ", mm30);
 
+      setA(Math.min(aa / napokall / 10000, 1));
+      setB(Math.min(mm30 / 30 / 10000, 1));
+      setC(Math.min(mm7 / 7 / 10000, 1));
+
       // console.log(dd);
     })().then(
       (async () => {
@@ -152,8 +162,15 @@ export default function Monthly_chart(props) {
         console.log(stepssss[0]);
         setDownloaded(true);
 
-      })());
+      })()).then(setSync2(true));
+
   }, []);
+
+
+  useEffect(() => {
+
+    setD(Math.min(props.weeklySteps[0] / 10000, 1));
+  }, [props.weeklySteps]);
 
   // if (downloaded) {
   //   console.log("Steps from async storage:\n");
@@ -161,71 +178,79 @@ export default function Monthly_chart(props) {
 
   // };
 
-  const data = {
-    labels: ["All-time", "30-day", "7-day", "Today"], // optional
-    data: [Math.min(allsteps / noofalldays / 10000, 1), Math.min(m30 / 30 / 10000, 1), Math.min(m7 / 7 / 10000, 1), Math.min(props.weeklySteps[0] / 10000, 1)],
-    colors: [
-      "rgba(20, 143, 119, 0.4)",
-      "rgba(20, 143, 119, 0.7)",
-      "rgba(20, 143, 119, 1)",
-      "rgba(143, 57, 20, 0.8)",
-    ],
-  };
 
-  return (
+  if (!sync2) {
+    return <AppLoading />;
 
-    <View style={styles.container} >
+  } else {
 
-      <Text style={{ color: '#148F77', fontSize: 18, fontFamily: 'AvenirNextDemiItalic', fontWeight: '300', marginTop: -50 }}>All-time / daily average: {allsteps + props.weeklySteps[0]} / {Math.round((allsteps + props.weeklySteps[0]) / noofalldays)}</Text>
-
-      <Text style={{ color: '#148F77', fontSize: 18, fontFamily: 'AvenirNextDemiItalic', fontWeight: '300', marginTop: 10, marginBottom: 10 }}>RECORD: {max}</Text>
-
-      <Text style={{ color: '#148F77', fontSize: 18, fontFamily: 'AvenirNextDemiItalic', fontWeight: '300', marginTop: 10 }}>Steps in 30 days / daily average: {m30} / {Math.round(m30 / 30)}</Text>
-
-      <Text style={{ color: '#148F77', fontSize: 18, fontFamily: 'AvenirNextDemiItalic', fontWeight: '300', marginTop: 10 }}>Steps in 7 days / daily average: {m7} / {Math.round(m7 / 7)}</Text>
-
-      {/* <Text style={{ color: '#148F77', fontSize: 18, fontFamily: 'AvenirNextDemiItalic', fontWeight: '300', marginTop: 10 }}>Steps in {new Date().getFullYear() + "/" + (new Date().getMonth() + 1)} / daily average: {monthlysteps + props.weeklySteps[0]} / {Math.round((monthlysteps + props.weeklySteps[0]) / noofdays)}</Text> */}
-
-      <Text style={{ color: '#148F77', fontSize: 18, fontFamily: 'AvenirNextDemiItalic', fontWeight: '300', marginTop: 10, marginBottom: 20 }}>Steps today: {props.weeklySteps[0]}</Text>
-
-      <Image source={logo} style={{ width: '18%', height: '12%', marginBottom: '-3%' }} />
-      <Image source={appname} style={{ width: '30%', height: '15%', marginBottom: '-3%' }} />
+    const data = {
+      labels: ["All-time", "30-day", "7-day", "Today"], // optional
+      data: [a, b, c, d],
+      colors: [
+        "rgba(20, 143, 119, 0.4)",
+        "rgba(20, 143, 119, 0.7)",
+        "rgba(20, 143, 119, 1)",
+        "rgba(143, 57, 20, 0.8)",
+      ],
+    };
 
 
-      {/* // each value represents a goal ring in Progress chart */}
+    return (
+
+      <View style={styles.container} >
+
+        <Text style={{ color: '#148F77', fontSize: 18, fontFamily: 'AvenirNextDemiItalic', fontWeight: '300', marginTop: -50 }}>All-time / daily average: {allsteps + props.weeklySteps[0]} / {Math.round((allsteps + props.weeklySteps[0]) / noofalldays)}</Text>
+
+        <Text style={{ color: '#148F77', fontSize: 18, fontFamily: 'AvenirNextDemiItalic', fontWeight: '300', marginTop: 10, marginBottom: 10 }}>RECORD: {max}</Text>
+
+        <Text style={{ color: '#148F77', fontSize: 18, fontFamily: 'AvenirNextDemiItalic', fontWeight: '300', marginTop: 10 }}>Steps in 30 days / daily average: {m30} / {Math.round(m30 / 30)}</Text>
+
+        <Text style={{ color: '#148F77', fontSize: 18, fontFamily: 'AvenirNextDemiItalic', fontWeight: '300', marginTop: 10 }}>Steps in 7 days / daily average: {m7} / {Math.round(m7 / 7)}</Text>
+
+        {/* <Text style={{ color: '#148F77', fontSize: 18, fontFamily: 'AvenirNextDemiItalic', fontWeight: '300', marginTop: 10 }}>Steps in {new Date().getFullYear() + "/" + (new Date().getMonth() + 1)} / daily average: {monthlysteps + props.weeklySteps[0]} / {Math.round((monthlysteps + props.weeklySteps[0]) / noofdays)}</Text> */}
+
+        <Text style={{ color: '#148F77', fontSize: 18, fontFamily: 'AvenirNextDemiItalic', fontWeight: '300', marginTop: 10, marginBottom: 20 }}>Steps today: {props.weeklySteps[0]}</Text>
+
+        <Image source={logo} style={{ width: '18%', height: '12%', marginBottom: '-3%' }} />
+        <Image source={appname} style={{ width: '30%', height: '15%', marginBottom: '-3%' }} />
 
 
-      <ProgressChart
-        data={data}
-        width={Dimensions.get("window").width - 50}
-        height={Dimensions.get("window").width - 150}
-        strokeWidth={17}
-        // radius={15}
-        hasLegend={false}
-        withCustomBarColorFromData={true}
-        // hideLegend={true}
-        chartConfig={{
-          backgroundColor: '#E8F8F5',
-          backgroundGradientFrom: '#E8F8F5',
-          backgroundGradientTo: '#E8F8F5',
-          //decimalPlaces: 2,
-          color: (opacity = 1) => `rgba(20, 143, 119, ${opacity})`,
-          // labelColor: (opacity = 1) => `rgba(143, 57, 20, ${opacity})`,
-        }}
-        style={{
-          marginVertical: 0,
-          borderRadius: 15,
-          shadowColor: '#171717',
-          shadowOffset: { width: -2, height: 4 },
-          shadowOpacity: 0.2,
-          shadowRadius: 3,
-        }}
-      />
+        {/* // each value represents a goal ring in Progress chart */}
 
-    </View>
 
-  );
-}
+        <ProgressChart
+          data={data}
+          width={Dimensions.get("window").width - 50}
+          height={Dimensions.get("window").width - 150}
+          strokeWidth={17}
+          // radius={15}
+          hasLegend={false}
+          withCustomBarColorFromData={true}
+          // hideLegend={true}
+          chartConfig={{
+            backgroundColor: '#E8F8F5',
+            backgroundGradientFrom: '#E8F8F5',
+            backgroundGradientTo: '#E8F8F5',
+            //decimalPlaces: 2,
+            color: (opacity = 1) => `rgba(20, 143, 119, ${opacity})`,
+            // labelColor: (opacity = 1) => `rgba(143, 57, 20, ${opacity})`,
+          }}
+          style={{
+            marginVertical: 0,
+            borderRadius: 15,
+            shadowColor: '#171717',
+            shadowOffset: { width: -2, height: 4 },
+            shadowOpacity: 0.2,
+            shadowRadius: 3,
+          }}
+        />
+
+      </View>
+
+    );
+  }
+};
 
 const styles = StyleSheet.create({
   container: {

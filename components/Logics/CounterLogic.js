@@ -1,5 +1,6 @@
 import { Pedometer } from 'expo-sensors';
 import React, { useState, useEffect } from 'react';
+import { db } from '../../database.js';
 import { getnDayBefore, converttoDay } from './FormatDate.js';
 
 export default function useStepCounter() {
@@ -9,8 +10,6 @@ export default function useStepCounter() {
     const [currentStepCount, setcurrentStepCount] = useState(0);
 
     // defining previous 6 days (Pedomater data available for 7 days retrospectively)
-
-
 
     const [yesterdayStepCount, setyesterdayStepCount] = useState(0);
     const [daybefore1StepCount, setdaybefore1StepCount] = useState(0);
@@ -25,15 +24,12 @@ export default function useStepCounter() {
     // console.log(end, start, yesterday, dbefore2, dbefore3, dbefore4, dbefore5, dbefore6);
 
     useEffect(() => {
-        var startt = new Date().setHours(0, 0, 0, 0);
-        setStarttt(new Date(startt));
 
         _subscribe();
         return () => {
             _unsubscribe();
-
         }
-    }, [pastStepCount])
+    }, [])
 
     //pedometer function
     _subscribe = () => {
@@ -66,7 +62,7 @@ export default function useStepCounter() {
         );
 
 
-        Pedometer.getStepCountAsync(starttt, new Date()).then(
+        Pedometer.getStepCountAsync(start, end).then(
             result => {
                 setpastStepCount(result.steps)
             },
@@ -76,7 +72,7 @@ export default function useStepCounter() {
         );
 
         // Stepcounts for previous days (d-1... d-6)
-        Pedometer.getStepCountAsync(yesterday, starttt).then(
+        Pedometer.getStepCountAsync(yesterday, start).then(
             result => {
                 setyesterdayStepCount(result.steps);
             },
@@ -129,6 +125,7 @@ export default function useStepCounter() {
                 setdaybefore6StepCount('Could not get stepCount: ' + error)
             }
         );
+        // console.log(new Date(), start, yesterday, dbefore2, dbefore3, dbefore4, dbefore5, dbefore6);
 
     };
 
@@ -141,12 +138,12 @@ export default function useStepCounter() {
     var weeklySteps = [];
 
     weeklySteps[0] = pastStepCount + currentStepCount;
-    weeklySteps[1] = yesterdayStepCount
-    weeklySteps[2] = daybefore2StepCount
-    weeklySteps[3] = daybefore3StepCount
-    weeklySteps[4] = daybefore4StepCount
-    weeklySteps[5] = daybefore5StepCount
-    weeklySteps[6] = daybefore6StepCount
+    weeklySteps[1] = yesterdayStepCount;
+    weeklySteps[2] = daybefore2StepCount;
+    weeklySteps[3] = daybefore3StepCount;
+    weeklySteps[4] = daybefore4StepCount;
+    weeklySteps[5] = daybefore5StepCount;
+    weeklySteps[6] = daybefore6StepCount;
 
     return [weeklySteps];
 

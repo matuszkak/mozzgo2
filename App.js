@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import AppLoading from 'expo-app-loading';
+import { LogBox } from 'react-native';
 
 import InnerPage from './components/InnerPage';
 import LoginPage from './components/LoginPage';
@@ -11,6 +12,8 @@ export default function App() {
   const [userData, setUserData] = useState(null);
   const [weeklySteps, setWeeklySteps] = useStepCounter();
 
+  // LogBox.ignoreLogs(['AsyncStorage has been extracted from react-native core']);
+  LogBox.ignoreAllLogs();
 
   // load user
   useEffect(() => {
