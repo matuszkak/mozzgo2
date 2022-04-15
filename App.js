@@ -43,7 +43,7 @@ export default function App() {
   } else {
 
     return (
-      <InnerPage setUserData={setUserData} userData={userData} weeklySteps={weeklySteps} setweeklySteps={setWeeklySteps} />
+      <InnerPage setUserData={setUserData} userData={userData} weeklySteps={weeklySteps} setWeeklySteps={setWeeklySteps} />
     );
     // };
   };

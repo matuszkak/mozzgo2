@@ -80,7 +80,7 @@ export default function Chart(props) {
   useEffect(() => {
     // identify dates for last 7 days
     var w = [];
-    for (i = 0; i < 7; i++) {
+    for (let i = 0; i < 7; i++) {
       var d = new Date();
       d.setDate(d.getDate() - i);
       w[i] = dateyyyymmdd(new Date(d));

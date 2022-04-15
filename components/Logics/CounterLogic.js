@@ -135,15 +135,7 @@ export default function useStepCounter() {
         _subscription = null;
     };
 
-    var weeklySteps = [];
-
-    weeklySteps[0] = pastStepCount + currentStepCount;
-    weeklySteps[1] = yesterdayStepCount;
-    weeklySteps[2] = daybefore2StepCount;
-    weeklySteps[3] = daybefore3StepCount;
-    weeklySteps[4] = daybefore4StepCount;
-    weeklySteps[5] = daybefore5StepCount;
-    weeklySteps[6] = daybefore6StepCount;
+    var weeklySteps = [pastStepCount + currentStepCount, yesterdayStepCount, daybefore2StepCount, daybefore3StepCount, daybefore4StepCount, daybefore5StepCount, daybefore6StepCount];
 
     return [weeklySteps];
 

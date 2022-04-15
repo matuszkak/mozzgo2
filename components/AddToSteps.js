@@ -90,7 +90,7 @@ const AddToSteps = props => {
             <Picker.Item color="#009688" label="Swimming, freestyle (181/min)" value="Swimming, freestyle" />
             <Picker.Item color="#009688" label="Table tennis (120/min)" value="Table tennis" />
             <Picker.Item color="#009688" label="Tennis (200/min)" value="Tennis" />
-            <Picker.Item color="#009688" label="Walking (84/min)" value="Walking" />
+            <Picker.Item color="#009688" label="Walking (84/min)" value="Walking, average" />
           </Picker>
         </View>
 
